@@ -1,0 +1,11 @@
+{%
+  set classes = [
+  'sm-container',
+]
+%}
+
+{% if content %}
+  <section{{ attributes.addClass(classes) }}>
+    {{ content }}
+  </section>
+{% endif %}

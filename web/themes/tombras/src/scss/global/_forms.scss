@@ -1,0 +1,33 @@
+form {
+
+}
+
+// all text-based inputs
+// pseudo-selectors are: active, focus, hover, invalid
+[type='color'],
+[type='date'],
+[type='datetime'],
+[type='datetime-local'],
+[type='email'],
+[type='month'],
+[type='number'],
+[type='password'],
+[type='search'],
+[type='tel'],
+[type='text'],
+[type='time'],
+[type='url'],
+[type='week'],
+input:not([type]),
+textarea {
+
+}
+
+// all buttons
+// pseudo-selectors are: active, focus, hover
+button,
+[type='button'],
+[type='reset'],
+[type='submit'] {
+
+}

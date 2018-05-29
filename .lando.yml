@@ -1,0 +1,5 @@
+name: drupal-base
+recipe: drupal8
+config:
+  webroot: web
+  xdebug: true

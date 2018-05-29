@@ -1,0 +1,10 @@
+global-styling:
+  css:
+    theme:
+      css/styles.css: {}
+  js:
+    js/main.min.js: {}
+  dependencies:
+    - core/jquery
+    - core/jquery.once
+    - core/drupal.debounce

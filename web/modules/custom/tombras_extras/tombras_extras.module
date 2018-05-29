@@ -1,0 +1,67 @@
+<?php
+
+use Drupal\Core\Form\FormStateInterface;
+
+function tombras_extras_layout_alter(&$definitions) {
+  // Disable default layouts.
+  //unset($definitions['layout_onecol']);
+  unset($definitions['layout_twocol']);
+  unset($definitions['layout_twocol_bricks']);
+  unset($definitions['layout_threecol_25_50_25']);
+  unset($definitions['layout_threecol_33_34_33']);
+}
+
+function tombras_extras_field_widget_form_alter(&$element, FormStateInterface $form_state, $context) {
+  $e = $element;
+  $n = $e;
+}
+
+function tombras_extras_paragraphs_widget_actions_alter(array &$widget_actions, array &$context) {
+  $e = $context;
+  $n = $e;
+}
+
+function tombras_extras_preprocess_inline_entity_form_entity_table(&$variables) {
+  if (!empty($variables['table']['#tabledrag'])) {
+    _bricks_preprocess_tabledrag_form($variables, 'form', 'bricks_tree_inline', 'ief-entity-delta', TRUE);
+  }
+}
+
+
+function tombras_extras_preprocess_page(&$variables){
+  $current_path = \Drupal::service('path.current')->getPath();
+  if(preg_match('/node\/(\d+)\/edit/', $current_path, $matches)) {
+    $variables['#attached']['library'][] = 'tombras_extras/main_tool';
+  }
+}
+
+function tombras_extras_preprocess_paragraph__container(&$variables) {
+  if (!$variables['paragraph']->get('field_title')->isEmpty()) {
+    $variables['title'] = $variables['paragraph']->get('field_title')->value;
+  }
+}
+
+function tombras_extras_preprocess_field__field_modifiers(&$variables) {
+  $variables["element"]["#render_children"] = false;
+}
+
+function tombras_extras_preprocess_paragraph__background_color(&$variables) {
+  _css_string($variables, 'background-color', 'field_background_color');
+}
+
+function tombras_extras_preprocess_paragraph__font_color(&$variables) {
+  _css_string($variables, 'color', 'field_font_color');
+}
+
+function _css_string(&$variables, $css_element, $field_name) {
+  $parent_id = $variables['paragraph']->parent_id->value;
+  $value = $variables['paragraph']->get($field_name)->value;
+  $css = ".paragraph-$parent_id{".$css_element.": #$value}";
+  $variables['#attached']['html_head'][]=[
+    [
+      '#tag' => 'style',
+      '#value' => $css
+    ],
+    'modifiers-' . $css_element . '-' . $parent_id
+  ];
+}

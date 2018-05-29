@@ -1,0 +1,5 @@
+name: Tombras Extras
+description: Allows to create tools for this drupal install.
+package: Tombras
+type: module
+core: 8.x

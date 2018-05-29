@@ -1,0 +1,89 @@
+#block-tombras-local-tasks {
+  margin-bottom: 30px;
+
+  .reset-appearance {
+    display: none;
+  }
+
+  ul.tabs {
+    position: relative;
+    display: block;
+    max-width: 72.5rem;
+    padding: 0 20px;
+    margin: 0 auto;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 16px;
+    text-transform: uppercase;
+
+    &:before {
+      content: '';
+      display: block;
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background-color: rgba(0, 0, 0, 0.1);
+    }
+
+
+    li.tabs__tab {
+      position: relative;
+      display: inline-block;
+      float: none;
+      overflow: hidden;
+      margin: 0 -2px;
+      vertical-align: bottom;
+      border-width: 0;
+      background-color: transparent;
+      font-size: 14px;
+      outline: none;
+
+      > a {
+        position: relative;
+        display: block;
+        margin: 0 auto;
+        padding: 0 12px;
+        border-bottom: 2px solid transparent;
+        background-color: transparent;
+        color: $color-black;
+        line-height: 48px;
+        -webkit-transition: all 0.2s ease;
+        -moz-transition: all 0.2s ease;
+        -o-transition: all 0.2s ease;
+        transition: all 0.2s ease;
+        font-family: $font-primary;
+        text-decoration: none;
+
+        @media (min-width: $screen-md) {
+          padding: 0 24px;
+        }
+      }
+      a:hover,
+      a:focus,
+      a:visited,
+      a:active,
+      a.is-active{
+        background-color: inherit;
+        border-bottom: 2px solid $color-title-blue;
+      }
+
+      .tabs__tab {
+        //display: inline-block!important;
+        max-width: 130px;
+        font-size: 14px !important;
+
+        @media (min-width: $screen-md) {
+          max-width: none;
+          font-size: 14px !important;
+        }
+      }
+
+      .tabs__tab .is-active {
+        border-bottom: 2px solid $color-title-blue;
+      }
+    }
+  }
+}
+

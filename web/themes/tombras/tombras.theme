@@ -1,0 +1,33 @@
+<?php
+
+/**
+ * Implements hook_pre_render_HOOK() for menu-local-tasks templates.
+ *
+ * Use preprocess hook to set #attached to child elements
+ * because they will be processed by Twig and drupal_render will
+ * be invoked.
+ */
+function tombras_preprocess_menu_local_tasks(&$variables) {
+  if (!empty($variables['primary'])) {
+    $variables['attributes']['class'][] = 'tabs';
+    $variables['primary']['#attached'] = [
+      'library' => [
+        'tombras_admin/drupal.nav-tabs',
+      ],
+    ];
+  }
+  elseif (!empty($variables['secondary'])) {
+    $variables['secondary']['#attached'] = [
+      'library' => [
+        'tombras_admin/drupal.nav-tabs',
+      ],
+    ];
+  }
+}
+
+/**
+ * Implements hook_preprocess_HOOK() for menu-local-task templates.
+ */
+function tombras_preprocess_menu_local_task(&$variables) {
+  $variables['attributes']['class'][] = 'tabs__tab';
+}

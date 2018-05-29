@@ -1,0 +1,26 @@
+admin_styling:
+  css:
+    theme:
+      css/admin.css: { media: all }
+  js:
+    js/theme.min.js: {}
+  # These are the main dependencies by default.
+  dependencies:
+    - core/jquery
+    - core/jquery.once
+    - core/drupal
+switch_style:
+ css:
+  theme:
+   libraries/switch_style/bootstrap-switch.css: { media: all }
+   
+ js:
+   libraries/switch_style/bootstrap-switch.js: {}
+   
+owl_carousel:
+  css:
+    theme:
+      libraries/owl-carousel/owl.carousel.css: {media: all}
+
+  js:
+    libraries/owl-carousel/owl.carousel.js: {}

@@ -1,0 +1,14 @@
+name: Tombras Responsive Theme
+type: theme
+description: Responsive grid theme made for Drupal 8.
+base theme: stable
+core: 8.x
+libraries:
+  - tombras/global-styling
+ckeditor_stylesheets:
+  - css/ckeditor.css
+regions:
+  header: Header
+  featured: Featured
+  content: Content
+  footer: Footer

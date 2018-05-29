@@ -1,0 +1,16 @@
+{
+  "build": {
+    "meta": {},
+    "js": {
+      "js/main.min.js":"src/js/main.js"
+    },
+    "css": {
+      "css/styles.css":"src/scss/styles.scss",
+      "css/ckeditor.css":"src/scss/ckeditor.scss"
+    },
+    "twig": {},
+    "browserSync": {
+      "files": []
+    }
+  }
+}

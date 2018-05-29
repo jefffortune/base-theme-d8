@@ -1,0 +1,134 @@
+.four-col-row {
+
+  .container {
+
+    .content {
+      display: flex;
+      flex-flow: row wrap;
+      justify-content: space-between;
+      @media (min-width: $screen-md) {
+        display: flex;
+        flex-flow: row wrap;
+        justify-content: space-between;
+      }
+    }
+
+    .default, .two-columns, .three-columns {
+      margin-bottom: em(10);
+
+      @media (min-width: $screen-md) {
+        margin-bottom: em(20);
+      }
+    }
+
+    .item {
+      > * {
+        display: block;
+      }
+
+      > *:not(img) {
+        padding: 10px;
+      }
+    }
+
+    .default {
+      width: 49%;
+
+      @media (min-width: $screen-md) {
+        width: calc((1 / 3 * 100%) - .5%);
+      }
+
+      @media (min-width: $screen-lg) {
+        width: calc((1/4 * 100%) - .5%);
+      }
+    }
+
+    .two-columns {
+      width: 49%;
+
+      @media (min-width: $screen-md) {
+        width: calc((2 / 3 * 100%) - .5%);
+      }
+
+      @media (min-width: $screen-lg) {
+        width: calc((2/4 * 100%) - .5%);
+      }
+    }
+
+    .three-columns {
+      width: 100%;
+
+      @media (min-width: $screen-md) {
+        width: 100%;
+      }
+
+      @media (min-width: $screen-lg) {
+        width: calc((3/4 * 100%) - .5%);
+      }
+    }
+
+    .four-columns {
+      width: 100%;
+
+      @media (min-width: $screen-md) {
+        width: 100%;
+      }
+    }
+  }
+
+  .row-no-gutter .content {
+    justify-content: normal;
+
+    .default, .two-columns, .three-columns {
+      margin-bottom: 0;
+
+      @media (min-width: $screen-md) {
+        margin-bottom: 0;
+      }
+    }
+
+    .default {
+      width: 100%;
+
+      @media (min-width: $screen-md) {
+        width: calc(1 / 3 * 100%);
+      }
+
+      @media (min-width: $screen-lg) {
+        width: calc(1/4 * 100%);
+      }
+    }
+
+    .two-columns {
+      width: 49%;
+
+      @media (min-width: $screen-md) {
+        width: calc(2 / 3 * 100%);
+      }
+
+      @media (min-width: $screen-lg) {
+        width: calc(2/4 * 100%);
+      }
+    }
+
+    .three-columns {
+      width: 100%;
+
+      @media (min-width: $screen-md) {
+        width: 100%;
+      }
+
+      @media (min-width: $screen-lg) {
+        width: calc(3/4 * 100%);
+      }
+    }
+
+    .four-columns {
+      width: 100%;
+
+      @media (min-width: $screen-md) {
+        width: 100%;
+      }
+    }
+  }
+}

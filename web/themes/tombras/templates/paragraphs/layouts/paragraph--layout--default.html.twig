@@ -1,0 +1,12 @@
+{%
+  set classes = [
+  'paragraph-' ~ paragraph.id()
+]
+%}
+{% block paragraph %}
+  {% block content %}
+    <div {{ attributes.addClass(classes) }}>
+      {{ content }}
+    </div>
+  {% endblock %}
+{% endblock paragraph %}

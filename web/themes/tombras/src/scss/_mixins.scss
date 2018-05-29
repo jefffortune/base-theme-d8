@@ -1,0 +1,92 @@
+// to make this file work if used on its own, uncomment the following line
+// $base-font-size: 16px !default;
+
+/// Remove the unit of a length
+/// @param {Number} $number - Number to remove unit from
+/// @return {Number} - Unitless number
+@function strip-unit($number) {
+  @if type-of($number) == 'number' and not unitless($number) {
+    @return ($number / ($number * 0 + 1));
+  }
+  @return $number;
+}
+
+// Removes units only from zero-values (like 0px)
+@function strip-zero($number) {
+  @return if(strip-unit($number) == 0, 0, $number);
+}
+
+// Use with things like line-height
+@function ratio($px, $context: $base-font-size) {
+  @return (strip-unit($px) / strip-unit($context));
+}
+
+@function em($px, $context: $base-font-size) {
+  @return ratio($px, $context) * 1em;
+}
+
+@function rem($px) {
+  @return ratio($px, $base-font-size) * 1rem;
+}
+
+@function percent($px, $context: $base-font-size) {
+  @return ratio($px, $context) * 100%;
+}
+
+@function px($em, $context: $base-font-size) {
+  @return (strip-unit($em) * $context);
+}
+
+@function fluid-size($sm, $lg, $narrow, $wide) {
+  @if unitless($sm) {
+    $sm: $sm * 1px;
+  }
+
+  @if not (unitless($lg) or unit($sm) == unit($lg)) {
+    @error 'Element size units (first two parameters) do not match.';
+  }
+
+  @if unitless($narrow) {
+    @error '$narrow (third parameter) requires units to be specified.';
+  }
+
+  @if not (unitless($wide) or unit($narrow) == unit($wide)) {
+    @error 'Viewport width units (last two parameters) do not match.';
+  }
+
+  @if unit($narrow) == 'em' {
+    $narrow: strip-unit($narrow) * 1rem;
+    $wide: strip-unit($wide) * 1rem;
+  }
+
+  @if unit($narrow) == 'rem' and unit($sm) == 'px' {
+    $sm: rem($sm);
+    $lg: rem($lg);
+  }
+
+  @if unit($narrow) == 'px' and not (unit($sm) == 'px') {
+    $narrow: rem($narrow);
+    $wide: rem($wide);
+  }
+
+  @return calc(
+          (100vw - #{$narrow})
+          / #{strip-unit($wide - $narrow)}
+          * #{strip-unit($lg - $sm)}
+          + #{$sm}
+  );
+}
+
+@mixin bg-gradient($top, $btm, $fallback, $dir: to bottom) {
+  background: $fallback;
+  @content;
+  background: linear-gradient($dir, $top 0%, $btm 100%);
+}
+
+@mixin clearfix() {
+  &::after {
+    clear: both;
+    content: "";
+    display: table;
+  }
+}

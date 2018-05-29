@@ -1,0 +1,11 @@
+{%
+  set classes = [
+  'one-col-row',
+]
+%}
+
+{% if content %}
+  <section {{ attributes.addClass(classes) }}>
+    {{ content }}
+  </section>
+{% endif %}

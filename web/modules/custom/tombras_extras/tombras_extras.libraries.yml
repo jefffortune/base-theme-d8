@@ -1,0 +1,3 @@
+tombras_extras:
+  js:
+    src/js/admin.js: {}

@@ -1,0 +1,70 @@
+// font family
+$font-primary: 'Roboto', sans-serif;
+$font-secondary: 'Oswald', sans-serif;
+
+// font size
+$base-font-size: 16px;
+
+// colors
+$color-black: #000000;//#131B45;
+$color-secondary-font: #094B99;
+$color-title-blue: #086ACB;
+$color-white: #ffffff;
+
+// hover colors
+
+$hover-white: rgba($color-white, .70);
+
+// padding
+
+//mobile
+$padding_mobile_top:        rem(15);
+$padding_mobile_side:       rem(15);
+$padding_mobile_bottom:     rem(15);
+$padding_mobile:            $padding_mobile_top $padding_mobile_side $padding_mobile_bottom;
+
+//tablet
+$padding_tablet_top:        rem(30);
+$padding_tablet_side:       rem(30);
+$padding_tablet_bottom:     rem(30);
+$padding_tablet:            $padding_tablet_top $padding_tablet_side $padding_tablet_bottom;
+
+//desktop
+$padding_desktop_top:       rem(60);
+$padding_desktop_side:      rem(60);
+$padding_desktop_bottom:    rem(60);
+$padding_desktop:           $padding_desktop_top $padding_desktop_side $padding_desktop_bottom;
+
+// Max width of containers
+$max_width_row: rem(1300);
+$max_width_small_row: rem(600);
+
+
+//grids
+// Two column variable
+$grid_two_columns_two_spaces: 100%;
+$grid_two_columns_one_space: 50%;
+
+//Three columns
+$grid_three_columns_three_spaces: 100%;
+$grid_three_columns_two_spaces: 66%;
+$grid_three_columns_one_spaces: 33%;
+
+//Four columns
+$grid_four_columns_four_spaces: 100%;
+$grid_four_columns_three_spaces: 75%;
+$grid_four_columns_two_spaces: 50%;
+$grid_four_columns_one_spaces: 25%;
+
+
+// Media query sizes
+$screen-xs: em(320);
+$screen-xs-max: em(479);
+$screen-sm: em(480);
+$screen-sm-max: em(679);
+$screen-md: em(680);
+$screen-md-max: em(1023);
+$screen-lg: em(1024);
+$screen-lg-max: em(1299);
+$screen-wide: em(1300)
+

@@ -1,0 +1,13 @@
+{
+  "build": {
+    "meta": {},
+    "js": {
+      "src/js/admin.min.js":"src/js/admin.js"
+    },
+    "css": {},
+    "twig": {},
+    "browserSync": {
+      "files": []
+    }
+  }
+}

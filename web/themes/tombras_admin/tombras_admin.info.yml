@@ -1,0 +1,28 @@
+name: Tombras Admin
+type: theme
+base theme: seven
+description: 'Admin theme for Drupal.'
+version: '8.x-1'
+core: '8.x'
+package: Tombras
+
+screenshot: screenshot.png
+
+libraries:
+  - tombras_admin/admin_styling
+  - tombras_admin/switch_style
+  - tombras_admin/owl_carousel
+regions:
+  header: 'Header'
+  pre_content: 'Pre-content'
+  breadcrumb: 'Breadcrumb'
+  highlighted: 'Highlighted'
+  help: 'Help'
+  content: 'Content'
+  page_top: 'Page top'
+  page_bottom: 'Page bottom'
+  sidebar_first: 'First sidebar'
+  none: 'none'
+regions_hidden:
+  - sidebar_first
+

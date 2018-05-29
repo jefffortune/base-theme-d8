@@ -1,0 +1,105 @@
+.three-col-row {
+
+  .container {
+
+    .content {
+      @media (min-width: $screen-md) {
+        display: flex;
+        flex-flow: row wrap;
+        justify-content: space-between;
+      }
+    }
+
+    .default, .two-columns, .three-columns {
+      position: relative;
+      margin-bottom: em(30);
+
+      @media (min-width: $screen-md) {
+        margin-bottom: em(20);
+      }
+    }
+
+    .item {
+      position: relative;
+      > * {
+        display: block;
+      }
+
+      > *:not(img):not(.contextual) {
+        padding: 10px;
+      }
+    }
+
+    .default {
+      width: 100%;
+
+      @media (min-width: $screen-md) {
+        width: 49%;
+      }
+
+      @media (min-width: $screen-lg) {
+        width: calc((1 / 3 * 100%) - 1%);
+      }
+    }
+
+    .two-columns {
+      width: 100%;
+
+      @media (min-width: $screen-md) {
+        width: 49%;
+      }
+
+      @media (min-width: $screen-lg) {
+        width: calc((2 / 3 * 100%) - 1%);
+      }
+    }
+
+    .three-columns {
+      @media (min-width: $screen-md) {
+        width: 100%;
+      }
+    }
+  }
+
+  .row-no-gutter .content {
+    justify-content: normal;
+
+    .default, .two-columns, .three-columns {
+      margin-bottom: 0;
+
+      @media (min-width: $screen-md) {
+        margin-bottom: 0;
+      }
+    }
+
+    .default {
+      width: 100%;
+
+      @media (min-width: $screen-md) {
+        width: 50%;
+      }
+
+      @media (min-width: $screen-lg) {
+        width: calc(1 / 3 * 100%);
+      }
+    }
+
+    .two-columns {
+      width: 100%;
+
+      @media (min-width: $screen-md) {
+        width: 50%;
+      }
+
+      @media (min-width: $screen-lg) {
+        width: calc(1 / 3 * 100%);
+      }
+    }
+
+    .three-columns {
+      @media (min-width: $screen-md) {
+        width: 100%;
+      }
+    }
+  }
+}

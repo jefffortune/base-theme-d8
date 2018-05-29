@@ -1,0 +1,29 @@
+section {
+  > .container {
+    padding: $padding_mobile;
+    margin: 0 auto;
+
+    @include clearfix;
+
+    @media (min-width: $screen-md) {
+      padding: $padding_tablet;
+    }
+
+    @media (min-width: $screen-lg) {
+      padding: $padding_desktop;
+    }
+  }
+
+  &.full-width .container {
+    padding: 0;
+    max-width: 100%;
+  }
+
+  .row.container, .row-no-gutter.container {
+    max-width: $max_width_row;
+  }
+
+  .small-row.container {
+    max-width: $max_width_small_row;
+  }
+}

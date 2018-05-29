@@ -1,0 +1,220 @@
+<?php
+use Drupal\Core\Menu\MenuTreeParameters;
+use Drupal\Core\Routing\RouteMatchInterface;
+use Drupal\Core\Url;
+/**
+ * Implements hook_preprocess_HOOK() for HTML document templates.
+ */
+function tombras_admin_preprocess_html(&$variables) {
+  // If on a node add or edit page, add a node-layout class.
+  $path_args = explode('/', \Drupal::request()->getPathInfo());
+  if ($suggestions = theme_get_suggestions($path_args, 'page', '-')) {
+    foreach ($suggestions as $key => $suggestion) {
+      if ($suggestion === 'page-node-edit' || strpos($suggestion, 'page-node-add') !== FALSE) {
+        $variables['attributes']['class'][] = 'node-form-layout';
+      }
+      $variables['attributes']['class'][] = $suggestion;
+
+      if (($key == count($suggestions) - 1) && $suggestion === 'page--admin-structure') {
+        $variables['attributes']['class'][] = 'page--admin-structure-main';
+      }
+    }
+  }
+}
+
+/**
+ * Implements hook_pre_render_HOOK() for menu-local-tasks templates.
+ *
+ * Use preprocess hook to set #attached to child elements
+ * because they will be processed by Twig and drupal_render will
+ * be invoked.
+ */
+function tombras_admin_preprocess_menu_local_tasks(&$variables) {
+  if (!empty($variables['primary'])) {
+    $variables['primary']['#attached'] = [
+      'library' => [
+        'tombras_admin/drupal.nav-tabs',
+      ],
+    ];
+  }
+  elseif (!empty($variables['secondary'])) {
+    $variables['secondary']['#attached'] = [
+      'library' => [
+        'tombras_admin/drupal.nav-tabs',
+      ],
+    ];
+  }
+}
+
+/**
+ * Implements hook_preprocess_HOOK() for menu-local-task templates.
+ */
+function tombras_admin_preprocess_menu_local_task(&$variables) {
+  $variables['attributes']['class'][] = 'tabs__tab';
+}
+
+/**
+ * Implements hook_preprocess_HOOK() for list of available node type templates.
+ */
+function tombras_admin_preprocess_node_add_list(&$variables) {
+  if (!empty($variables['content'])) {
+    /** @var \Drupal\node\NodeTypeInterface $type */
+    foreach ($variables['content'] as $type) {
+      $variables['types'][$type->id()]['label'] = $type->label();
+      $variables['types'][$type->id()]['url'] = \Drupal::url('node.add', ['node_type' => $type->id()]);
+    }
+  }
+}
+
+/**
+ * Implements hook_preprocess_page().
+ */
+function tombras_admin_preprocess_page(&$variables) {
+    // @todo: add an if statement to add below data only for "page__admin__content".
+    $variables['node_types'] = node_type_get_names();
+    // Render "admin/structure" page's menu in it's all subpages.
+    // Get current page path.
+    $path = \Drupal::request()->getPathInfo();
+    if (strpos($path, '/admin/structure') !== FALSE) {
+      $menu_tree = \Drupal::service('toolbar.menu_tree');
+      $parameters = new MenuTreeParameters();
+      $parameters->setRoot('system.admin_structure')->excludeRoot()->setMaxDepth(4)->onlyEnabledLinks();
+      $tree = $menu_tree->load(NULL, $parameters);
+      $tree_verified = array();
+      $manipulators = [
+        ['callable' => 'menu.default_tree_manipulators:checkAccess'],
+        ['callable' => 'menu.default_tree_manipulators:generateIndexAndSort'],
+      ];
+      $tree = $menu_tree->transform($tree, $manipulators);
+
+      // Finally, build a renderable array from the transformed tree.
+      $menu = $menu_tree->build($tree);
+      $variables['admin_menu'] = drupal_render($menu);
+    }
+  // End Of Render "admin/structure" page's menu in it's all subpages.
+}
+
+/**
+ * Implements hook_preprocess_HOOK() for block content add list templates.
+ *
+ * Displays the list of available custom block types for creation, adding
+ * separate variables for the label and url.
+ */
+function tombras_admin_preprocess_block_content_add_list(&$variables) {
+  if (!empty($variables['content'])) {
+    foreach ($variables['content'] as $type) {
+      $variables['types'][$type->id()]['label'] = $type->label();
+      $options = ['query' => \Drupal::request()->query->all()];
+      $variables['types'][$type->id()]['url'] = \Drupal::url('block_content.add_form', ['block_content_type' => $type->id()], $options);
+    }
+  }
+}
+
+/**
+ * Implements hook_preprocess_HOOK() for block admin page templates.
+ */
+function tombras_admin_preprocess_admin_block_content(&$variables) {
+  if (!empty($variables['content'])) {
+    foreach ($variables['content'] as $key => $item) {
+      $variables['content'][$key]['url'] = $item['url'];
+    }
+  }
+}
+
+/**
+ * Implements hook_preprocess_HOOK() for menu-local-action templates.
+ */
+function tombras_admin_preprocess_menu_local_action(array &$variables) {
+  $variables['link']['#options']['attributes']['class'][] = 'button--primary';
+  $variables['link']['#options']['attributes']['class'][] = 'button--small';
+
+  // We require Modernizr's touch test for button styling.
+  $variables['#attached']['library'][] = 'core/modernizr';
+}
+
+/**
+ * Implements hook_element_info_alter().
+ */
+function tombras_admin_element_info_alter(&$type) {
+  // We require Modernizr for button styling.
+  if (isset($type['button'])) {
+    $type['button']['#attached']['library'][] = 'core/modernizr';
+  }
+}
+
+/**
+ * Implements hook_preprocess_install_page().
+ */
+function tombras_admin_preprocess_install_page(&$variables) {
+  // Seven has custom styling for the install page.
+  $variables['#attached']['library'][] = 'tombras_admin/install-page';
+}
+
+/**
+ * Implements hook_preprocess_maintenance_page().
+ */
+function tombras_admin_preprocess_maintenance_page(&$variables) {
+  // Seven has custom styling for the maintenance page.
+  $variables['#attached']['library'][] = 'tombras_admin/maintenance-page';
+}
+
+/**
+ * Implements hook_form_BASE_FORM_ID_alter().
+ *
+ * Changes vertical tabs to container and adds meta information.
+ */
+function tombras_theme_form_node_form_alter(&$form, FormStateInterface $form_state) {
+  /** @var \Drupal\node\NodeInterface $node */
+  $node = $form_state->getFormObject()->getEntity();
+
+  $form['#theme'] = ['node_edit_form'];
+  $form['#attached']['library'][] = 'tombras_admin/node-form';
+
+  $form['advanced']['#type'] = 'container';
+  $is_new = !$node->isNew() ? format_date($node->getChangedTime(), 'short') : t('Not saved yet');
+  $form['meta'] = [
+    '#attributes' => ['class' => ['entity-meta__header']],
+    '#type' => 'container',
+    '#group' => 'advanced',
+    '#weight' => -100,
+    'published' => [
+      '#type' => 'html_tag',
+      '#tag' => 'h3',
+      '#value' => $node->isPublished() ? t('Published') : t('Not published'),
+      '#access' => !$node->isNew(),
+      '#attributes' => [
+        'class' => 'entity-meta__title',
+      ],
+    ],
+    'changed' => [
+      '#type' => 'item',
+      '#wrapper_attributes' => ['class' => ['entity-meta__last-saved', 'container-inline']],
+      '#markup' => '<h4 class="label inline">' . t('Last saved') . '</h4> ' . $is_new,
+    ],
+    'author' => [
+      '#type' => 'item',
+      '#wrapper_attributes' => ['class' => ['author', 'container-inline']],
+      '#markup' => '<h4 class="label inline">' . t('Author') . '</h4> ' . $node->getOwner()->getUsername(),
+    ],
+  ];
+  $form['revision_information']['#type'] = 'container';
+  $form['revision_information']['#group'] = 'meta';
+}
+
+/**
+ * Implements hook_library_info_alter().
+ */
+function tombras_admin_library_info_alter(&$libraries, $extension) {
+  if ($extension == 'core' && isset($libraries['drupal.vertical-tabs'])) {
+    unset($libraries['drupal.vertical-tabs']['css']['component']['misc/vertical-tabs.css']);
+    $libraries['drupal.vertical-tabs']['dependencies'][] = 'tombras_admin/vertical-tabs';
+  }
+  if ($extension == 'core' && isset($libraries['jquery.ui'])) {
+    unset($libraries['jquery.ui']['css']['theme']['assets/vendor/jquery.ui/themes/base/theme.css']);
+    $libraries['jquery.ui']['dependencies'][] = 'tombras_admin/seven.jquery.ui';
+  }
+  if ($extension == 'classy' && isset($libraries['dialog'])) {
+    unset($libraries['dialog']['css']['component']['css/components/dialog.css']);
+    $libraries['dialog']['dependencies'][] = 'tombras_admin/seven.drupal.dialog';
+  }
+}

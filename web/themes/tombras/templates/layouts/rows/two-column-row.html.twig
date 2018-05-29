@@ -1,0 +1,23 @@
+{#
+/**
+ * @file
+ * Default theme implementation to display a two-column layout.
+ *
+ * Available variables:
+ * - content: The content for this layout.
+ * - attributes: HTML attributes for the layout <div>.
+ *
+ * @ingroup themeable
+ */
+#}
+{%
+  set classes = [
+    'two-col-row',
+  ]
+%}
+
+{% if content %}
+  <section {{ attributes.addClass(classes) }}>
+    {{ content }}
+  </section>
+{% endif %}
