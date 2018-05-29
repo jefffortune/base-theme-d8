@@ -1,7 +1,7 @@
 layout_onecol_row:
   label: '1 Column Row'
   template: templates/layouts/rows/one-column-row
-  category: '1. Rows'
+  category: 'Base Layout'
   default_region: main
   regions:
     content:
@@ -9,7 +9,7 @@ layout_onecol_row:
 layout_twocol_row:
   label: '2 Column Row'
   template: templates/layouts/rows/two-column-row
-  category: '1. Rows'
+  category: 'Base Layout'
   default_region: main
   regions:
     content:
@@ -17,7 +17,7 @@ layout_twocol_row:
 layout_threecol_row:
   label: '3 Column Row'
   template: templates/layouts/rows/three-column-row
-  category: '1. Rows'
+  category: 'Base Layout'
   default_region: main
   regions:
     content:
@@ -25,7 +25,7 @@ layout_threecol_row:
 layout_fourcol_row:
   label: '4 Column Row'
   template: templates/layouts/rows/four-column-row
-  category: '1. Rows'
+  category: 'Base Layout'
   default_region: main
   regions:
     content:
@@ -33,7 +33,7 @@ layout_fourcol_row:
 layout_fivecol_row:
   label: '5 Column Row'
   template: templates/layouts/rows/five-column-row
-  category: '1. Rows'
+  category: 'Base Layout'
   default_region: main
   regions:
     content:
@@ -41,7 +41,7 @@ layout_fivecol_row:
 layout_sixcol_row:
   label: '6 Column Row'
   template: templates/layouts/rows/six-column-row
-  category: '1. Rows'
+  category: 'Base Layout'
   default_region: main
   regions:
     content:

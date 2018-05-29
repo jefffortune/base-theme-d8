@@ -5,7 +5,6 @@
       "js/theme.min.js":"src/js/theme.js"
     },
     "css": {
-      "css/styles.css":"src/sass/styles.scss"
     },
     "twig": {},
     "browserSync": {

@@ -1,37 +1,19 @@
 <?php
 
-use Drupal\Core\Form\FormStateInterface;
-
-function tombras_extras_layout_alter(&$definitions) {
-  // Disable default layouts.
-  //unset($definitions['layout_onecol']);
-  unset($definitions['layout_twocol']);
-  unset($definitions['layout_twocol_bricks']);
-  unset($definitions['layout_threecol_25_50_25']);
-  unset($definitions['layout_threecol_33_34_33']);
+use Drupal\Core\Render\Element;
+/**
+ * Implements hook_theme_registry_alter().
+ */
+function tombras_extras_theme_registry_alter(&$theme_registry) {
+  $theme_registry['inline_entity_form_entity_table']['theme path'] = drupal_get_path('module', 'tombras_extras');
+  $theme_registry['inline_entity_form_entity_table']['function'] = 'tombras_extras_inline_entity_form_entity_table';
 }
 
-function tombras_extras_field_widget_form_alter(&$element, FormStateInterface $form_state, $context) {
-  $e = $element;
-  $n = $e;
-}
-
-function tombras_extras_paragraphs_widget_actions_alter(array &$widget_actions, array &$context) {
-  $e = $context;
-  $n = $e;
-}
-
-function tombras_extras_preprocess_inline_entity_form_entity_table(&$variables) {
-  if (!empty($variables['table']['#tabledrag'])) {
-    _bricks_preprocess_tabledrag_form($variables, 'form', 'bricks_tree_inline', 'ief-entity-delta', TRUE);
-  }
-}
-
-
+// if we are on node edit lets add our js file
 function tombras_extras_preprocess_page(&$variables){
   $current_path = \Drupal::service('path.current')->getPath();
   if(preg_match('/node\/(\d+)\/edit/', $current_path, $matches)) {
-    $variables['#attached']['library'][] = 'tombras_extras/main_tool';
+    $variables['#attached']['library'][] = 'tombras_extras/tombras_extras';
   }
 }
 
@@ -39,6 +21,180 @@ function tombras_extras_preprocess_paragraph__container(&$variables) {
   if (!$variables['paragraph']->get('field_title')->isEmpty()) {
     $variables['title'] = $variables['paragraph']->get('field_title')->value;
   }
+}
+
+function tombras_extras_preprocess_inline_entity_form_entity_table(&$variables) {
+  _tombras_extras_form_preprocess_inline_entity_form_entity_table($variables);
+  $form = $variables['form'];
+  if (!empty($variables['table']['#tabledrag'])) {
+    for($i = 0; $i < sizeOf($variables['table']['#rows']); $i++) {
+      if(isset($variables['form'][$i]['options']['layout']['#options']['Columns: 1'])) {
+        unset($variables['form'][$i]['options']['layout']['#options']['Columns: 1']);
+      }
+    }
+    for($i = 0; $i < sizeOf($variables['table']['#rows']); $i++) {
+      $type = $form[$i]['#entity']->getType();
+
+      if($type === 'layout') {
+        $layout_options = $form[$i]['options']['layout']['#options'];
+      } else {
+        $layout_options = $form[$i]["options"]["view_mode"]['#options'];
+      }
+      switch($type) {
+        case 'layout':
+          $form[$i]['options']['layout']['#options'] = _remove_layouts($layout_options, ['Base Layout']);
+          break;
+        case 'container':
+          $form[$i]["options"]["view_mode"]['#options'] = _remove_layouts($layout_options, ['row', 'small_row', 'full_width', 'row_no_gutter']);
+          break;
+        default:
+          $form[$i]['options']['view_mode']['#options'] = _remove_layouts($layout_options, ['row', 'small_row', 'full_width', 'row_no_gutter'], false);
+          break;
+      }
+    }
+    $variables['form'] = $form;
+    _bricks_preprocess_tabledrag_form($variables, 'form', 'bricks_tree_inline', 'ief-entity-delta', TRUE);
+  }
+}
+
+function tombras_extras_inline_entity_form_entity_table(&$variables) {
+  if (!empty($variables['table'])) {
+    return \Drupal::service('renderer')->render($variables['table']);
+  }
+}
+
+function _tombras_extras_form_preprocess_inline_entity_form_entity_table(&$variables) {
+  $renderer = \Drupal::service('renderer');
+  $form = $variables['form'];
+  $entity_type = $form['#entity_type'];
+
+  $fields = $form['#table_fields'];
+  $has_tabledrag = \Drupal::entityTypeManager()->getHandler($entity_type, 'inline_form')->isTableDragEnabled($form);
+
+  // Sort the fields by weight.
+  uasort($fields, '\Drupal\Component\Utility\SortArray::sortByWeightElement');
+
+  $header = [];
+  if ($has_tabledrag) {
+    $header[] = ['data' => '', 'class' => ['ief-tabledrag-header']];
+    $header[] = ['data' => t('Sort order'), 'class' => ['ief-sort-order-header']];
+  }
+  // Add header columns for each field.
+  $first = TRUE;
+  foreach ($fields as $field_name => $field) {
+    $column = ['data' => $field['label']];
+    // The first column gets a special class.
+    if ($first) {
+      $column['class'] = ['ief-first-column-header'];
+      $first = FALSE;
+    }
+    $header[] = $column;
+  }
+  $header[] = t('Operations');
+
+  // Build an array of entity rows for the table.
+  $rows = [];
+  $e = Element::children($form);
+  foreach (Element::children($form) as $key) {
+    /** @var \Drupal\Core\Entity\FieldableEntityInterface $entity */
+    $entity = $form[$key]['#entity'];
+    $row_classes = ['ief-row-entity'];
+    $cells = [];
+    if ($has_tabledrag) {
+      $cells[] = ['data' => '', 'class' => ['ief-tabledrag-handle']];
+      $cells[] = $renderer->render($form[$key]['delta']);
+      $row_classes[] = 'draggable';
+    }
+    // Add a special class to rows that have a form underneath, to allow
+    // for additional styling.
+    if (!empty($form[$key]['form'])) {
+      $row_classes[] = 'ief-row-entity-form';
+    }
+
+    foreach ($fields as $field_name => $field) {
+      $data = '';
+      if ($field['type'] == 'label') {
+        $data = $variables['form'][$key]['#label'];
+      }
+      elseif ($field['type'] == 'field' && $entity->hasField($field_name)) {
+        $display_options = ['label' => 'hidden'];
+        if (isset($field['display_options'])) {
+          $display_options += $field['display_options'];
+        }
+        $data = $entity->get($field_name)->view($display_options);
+      }
+      elseif ($field['type'] == 'callback') {
+        $arguments = [
+          'entity' => $entity,
+          'variables' => $variables,
+        ];
+        if (isset($field['callback_arguments'])) {
+          $arguments = array_merge($arguments, $field['callback_arguments']);
+        }
+
+        $data = call_user_func_array($field['callback'], $arguments);
+      }
+
+      $cells[] = ['data' => $data, 'class' => ['inline-entity-form-' . $entity_type . '-' . $field_name]];
+    }
+
+    // Add the buttons belonging to the "Operations" column.
+    $cells[] = $renderer->render($form[$key]['actions']);
+    // Create the row.
+    $rows[] = ['data' => $cells, 'class' => $row_classes];
+    // If the current entity array specifies a form, output it in the next row.
+    if (!empty($form[$key]['form'])) {
+      $row = [
+        ['data' => $renderer->render($form[$key]['form']), 'colspan' => count($fields) + 1],
+      ];
+      $rows[] = ['data' => $row, 'class' => ['ief-row-form'], 'no_striping' => TRUE];
+    }
+  }
+
+  if (!empty($rows)) {
+    $tabledrag = [];
+    if ($has_tabledrag) {
+      $tabledrag = [
+        [
+          'action' => 'order',
+          'relationship' => 'sibling',
+          'group' => 'ief-entity-delta',
+        ],
+      ];
+    }
+
+    $table = [
+      '#type' => 'table',
+      '#header' => $header,
+      '#rows' => $rows,
+      '#attributes' => [
+        'id' => 'ief-entity-table-' . $form['#id'],
+        'class' => ['ief-entity-table'],
+      ],
+      '#tabledrag' => $tabledrag,
+    ];
+
+    // return $renderer->render($table); // -
+    $variables['table'] = $table; // +
+  }
+}
+
+function _remove_layouts(array $layouts, array $keys, $not_in_keys = TRUE){
+  if($not_in_keys) {
+    foreach ($layouts as $key => $layout) {
+      if(!in_array($key, $keys)) {
+        unset($layouts[$key]);
+      }
+    }
+  } else {
+    foreach ($layouts as $key => $layout) {
+      if(in_array($key, $keys)) {
+        unset($layouts[$key]);
+      }
+    }
+  }
+
+  return $layouts;
 }
 
 function tombras_extras_preprocess_field__field_modifiers(&$variables) {

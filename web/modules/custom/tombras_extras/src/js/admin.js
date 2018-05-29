@@ -5,7 +5,6 @@
       // Using jQuery here will help reduce the amount of conflicts between
       // admin interface and global JS functionality.
       var color_select = $('.field--name-field-background-color input, .field--name-field-font-color input');
-      console.log(color_select.length > 0)
       if(color_select.length > 0) {
         for (var i = 0; i < color_select.length; i++) {
           if (color_select[i].value !== '_none') {
