@@ -121,6 +121,7 @@
       <path value="$PROJECT_DIR$/vendor/jcalderonzumba/mink-phantomjs-driver" />
       <path value="$PROJECT_DIR$/vendor/container-interop/container-interop" />
       <path value="$PROJECT_DIR$/vendor/drupal-composer/drupal-scaffold" />
+      <path value="$PROJECT_DIR$/vendor/symfony/polyfill-ctype" />
     </include_path>
   </component>
   <component name="PhpInterpreters">

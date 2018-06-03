@@ -1,0 +1,87 @@
+name: Tombras Profile
+type: profile
+description: 'Tombras install profile with bricks and modifiers.'
+core: 8.x
+
+distribution:
+  name: Tombras Standard
+
+dependencies:
+  - admin_toolbar
+  - admin_toolbar_links_access_filter
+  - admin_toolbar_tools
+  - automated_cron
+  - big_pipe
+  - block
+  - block_content
+  - breakpoint
+  - bricks
+  - bricks_inline
+  - bricks_revisions
+  - ckeditor
+  - color
+  - config
+  - contact
+  - contextual
+  - crop
+  - ctools
+  - datetime
+  - dblog
+  - devel
+  - dynamic_page_cache
+  - editor
+  - entity_browser
+  - entity_browser_entity_form
+  - entity_reference_revisions
+  - field
+  - field_group
+  - field_layout
+  - field_ui
+  - file
+  - filter
+  - focal_point
+  - google_analytics
+  - help
+  - history
+  - honeypot
+  - image
+  - inline_entity_form
+  - inline_form_errors
+  - kint
+  - layout_builder
+  - layout_discovery
+  - link
+  - linkit
+  - media
+  - menu_ui
+  - node
+  - options
+  - page_cache
+  - path
+  - picture_background_formatter
+  - quickedit
+  - rdf
+  - responsive_image
+  - settings_tray
+  - shortcut
+  - system
+  - taxonomy
+  - telephone
+  - text
+  - token
+  - tombras_extras
+  - toolbar
+  - update
+  - user
+  - views_ui
+  - viewsreference
+  - menu_link_content
+  - pathauto
+  - views
+  - paragraphs
+themes:
+  - stable
+  - classy
+  - seven
+  - tombras
+  - agnian_material_admin

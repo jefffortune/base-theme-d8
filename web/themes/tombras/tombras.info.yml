@@ -9,6 +9,6 @@ ckeditor_stylesheets:
   - css/ckeditor.css
 regions:
   header: Header
-  featured: Featured
+  feature: Feature
   content: Content
   footer: Footer

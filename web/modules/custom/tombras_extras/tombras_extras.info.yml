@@ -3,3 +3,12 @@ description: Allows to create tools for this drupal install.
 package: Tombras
 type: module
 core: 8.x
+
+dependencies:
+  - bricks_inline
+  - field_layout
+  - layout_discovery
+  - path
+  - paragraphs
+  - bricks_revisions
+  - media

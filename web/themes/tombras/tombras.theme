@@ -12,14 +12,14 @@ function tombras_preprocess_menu_local_tasks(&$variables) {
     $variables['attributes']['class'][] = 'tabs';
     $variables['primary']['#attached'] = [
       'library' => [
-        'tombras_admin/drupal.nav-tabs',
+        'agnian_material_admin/drupal.nav-tabs',
       ],
     ];
   }
   elseif (!empty($variables['secondary'])) {
     $variables['secondary']['#attached'] = [
       'library' => [
-        'tombras_admin/drupal.nav-tabs',
+        'agnian_material_admin/drupal.nav-tabs',
       ],
     ];
   }

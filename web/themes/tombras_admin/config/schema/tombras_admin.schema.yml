@@ -1,5 +1,0 @@
-# Schema for the configuration files of the Seven theme.
-
-tombras_admin.settings:
-  type: theme_settings
-  label: 'Tombras admin settings'

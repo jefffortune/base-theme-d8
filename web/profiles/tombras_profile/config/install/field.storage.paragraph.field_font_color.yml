@@ -1,0 +1,44 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - options
+    - paragraphs
+id: paragraph.field_font_color
+field_name: field_font_color
+entity_type: paragraph
+type: list_string
+settings:
+  allowed_values:
+    -
+      value: ffffff
+      label: White
+    -
+      value: '000000'
+      label: Black
+    -
+      value: ff4444
+      label: Strawberry
+    -
+      value: c0c0c0
+      label: Gray
+    -
+      value: f5f5f5
+      label: 'Light Gray'
+    -
+      value: '808080'
+      label: 'Dark Gray'
+    -
+      value: 6dc066
+      label: Green
+    -
+      value: 3b5998
+      label: Blue
+  allowed_values_function: ''
+module: options
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false
