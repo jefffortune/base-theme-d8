@@ -21,6 +21,7 @@
         "drupal-composer/drupal-scaffold": "^2.2",
         "drupal/admin_toolbar": "^1.23",
         "drupal/agnian_material_admin": "^1.27",
+        "drupal/backup_migrate": "^4.0",
         "drupal/bricks": "^1.6",
         "drupal/console": "^1.0.2",
         "drupal/core": "~8.5.3",
