@@ -17,52 +17,67 @@ function tombras_extras_preprocess_page(&$variables){
   }
 }
 
+// Adding the title to a variable for twig.
 function tombras_extras_preprocess_paragraph__container(&$variables) {
   if (!$variables['paragraph']->get('field_title')->isEmpty()) {
     $variables['title'] = $variables['paragraph']->get('field_title')->value;
   }
 }
 
+// inline entity form table override for displaying the bricks layout.
 function tombras_extras_preprocess_inline_entity_form_entity_table(&$variables) {
   _tombras_extras_form_preprocess_inline_entity_form_entity_table($variables);
   $form = $variables['form'];
   if (!empty($variables['table']['#tabledrag'])) {
     for($i = 0; $i < sizeOf($variables['table']['#rows']); $i++) {
+      // Removing the pesky column one that seems to never go away.
       if(isset($variables['form'][$i]['options']['layout']['#options']['Columns: 1'])) {
         unset($variables['form'][$i]['options']['layout']['#options']['Columns: 1']);
       }
     }
+
+    // Get all rows that will be in the table and loop through them
+    // to assign a layout according to the type of paragraph they are.
     for($i = 0; $i < sizeOf($variables['table']['#rows']); $i++) {
       $type = $form[$i]['#entity']->getType();
-
+      // Bricks has a different data structure then normal paragraphs so
+      // we are checking them separately so we get them all.
       if($type === 'layout') {
         $layout_options = $form[$i]['options']['layout']['#options'];
       } else {
         $layout_options = $form[$i]["options"]["view_mode"]['#options'];
       }
+      // The switch will pass the type down allowing the removal of any layouts that
+      // shouldn't be on a particular paragraph_item
       switch($type) {
         case 'layout':
-          $form[$i]['options']['layout']['#options'] = _remove_layouts($layout_options, ['Base Layout']);
+          // if they are not in the base option set then we are doing away with them.
+          $form[$i]['options']['layout']['#options'] = _tombras_extras_remove_layouts($layout_options, ['Base Layout']);
           break;
         case 'container':
-          $form[$i]["options"]["view_mode"]['#options'] = _remove_layouts($layout_options, ['row', 'small_row', 'full_width', 'row_no_gutter']);
+          // containers are special to only row level layouts, so if it not row layout then we remove it.
+          $form[$i]["options"]["view_mode"]['#options'] = _tombras_extras_remove_layouts($layout_options, ['row', 'small_row', 'full_width', 'row_no_gutter']);
           break;
         default:
-          $form[$i]['options']['view_mode']['#options'] = _remove_layouts($layout_options, ['row', 'small_row', 'full_width', 'row_no_gutter'], false);
+          // Remove all row and base layout options.
+          $form[$i]['options']['view_mode']['#options'] = _tombras_extras_remove_layouts($layout_options, ['row', 'small_row', 'full_width', 'row_no_gutter'], false);
           break;
       }
     }
     $variables['form'] = $form;
+    // Let send this ot bricks to finish up prepossessing the table.
     _bricks_preprocess_tabledrag_form($variables, 'form', 'bricks_tree_inline', 'ief-entity-delta', TRUE);
   }
 }
-
+// basic render function took from IEF Module.
 function tombras_extras_inline_entity_form_entity_table(&$variables) {
   if (!empty($variables['table'])) {
     return \Drupal::service('renderer')->render($variables['table']);
   }
 }
 
+// @todo Let get some labels going for the elements (Brain STORM)-_-
+// We want the form the render our data overrides and not some funky implementation by bricks.
 function _tombras_extras_form_preprocess_inline_entity_form_entity_table(&$variables) {
   $renderer = \Drupal::service('renderer');
   $form = $variables['form'];
@@ -94,7 +109,6 @@ function _tombras_extras_form_preprocess_inline_entity_form_entity_table(&$varia
 
   // Build an array of entity rows for the table.
   $rows = [];
-  $e = Element::children($form);
   foreach (Element::children($form) as $key) {
     /** @var \Drupal\Core\Entity\FieldableEntityInterface $entity */
     $entity = $form[$key]['#entity'];
@@ -179,7 +193,8 @@ function _tombras_extras_form_preprocess_inline_entity_form_entity_table(&$varia
   }
 }
 
-function _remove_layouts(array $layouts, array $keys, $not_in_keys = TRUE){
+// Helper function that strips layouts away
+function _tombras_extras_remove_layouts(array $layouts, array $keys, $not_in_keys = TRUE){
   if($not_in_keys) {
     foreach ($layouts as $key => $layout) {
       if(!in_array($key, $keys)) {
@@ -197,18 +212,48 @@ function _remove_layouts(array $layouts, array $keys, $not_in_keys = TRUE){
   return $layouts;
 }
 
+// telling modifiers I dont want it to render
+// @todo it didn't listen figure this out.
 function tombras_extras_preprocess_field__field_modifiers(&$variables) {
   $variables["element"]["#render_children"] = false;
 }
-
+// add background color to the head in style tag
 function tombras_extras_preprocess_paragraph__background_color(&$variables) {
   _css_string($variables, 'background-color', 'field_background_color');
 }
-
+// add font color to head in style tag
 function tombras_extras_preprocess_paragraph__font_color(&$variables) {
   _css_string($variables, 'color', 'field_font_color');
 }
+// padding added to the head
+// @todo think of ways to try get breakpoints to work with this.
+function tombras_extras_preprocess_paragraph__padding(&$variables) {
+  $parent_id = $variables['paragraph']->parent_id->value;
 
+  $padding = [
+    'top' => $variables['paragraph']->get('field_top_padding')->value,
+    'right' => $variables['paragraph']->get('field_right_padding')->value,
+    'bottom' => $variables['paragraph']->get('field_bottom_padding')->value,
+    'left' => $variables['paragraph']->get('field_left_padding')->value,
+  ];
+
+  $css = ".paragraph-$parent_id{";
+  foreach ($padding as $key => $value) {
+    if($value !== null) {
+      $css .= "padding-$key: ". $value ."px!important;";
+    }
+  }
+  $css .= "}";
+
+  $variables['#attached']['html_head'][]=[
+    [
+      '#tag' => 'style',
+      '#value' => $css
+    ],
+    'modifiers-padding-' . $parent_id
+  ];
+}
+// function that adds our overrides the head for background color and font color.
 function _css_string(&$variables, $css_element, $field_name) {
   $parent_id = $variables['paragraph']->parent_id->value;
   $value = $variables['paragraph']->get($field_name)->value;
