@@ -12,6 +12,37 @@ section {
     @media (min-width: $screen-lg) {
       padding: $padding_desktop;
     }
+
+    .content {
+      display: flex;
+      flex-flow: row wrap;
+      justify-content: space-between;
+
+      @media (min-width: $screen-md) {
+        display: flex;
+        flex-flow: row wrap;
+        justify-content: space-between;
+      }
+    }
+
+    .default, .two-columns, .three-columns, .four-columns, .five-columns, .six-columns {
+      margin-bottom: em(10);
+
+      @media (min-width: $screen-md) {
+        margin-bottom: em(20);
+      }
+    }
+
+    .item {
+      position: relative;
+      > * {
+        display: block;
+      }
+
+      > *:not(img):not(.contextual) {
+        padding: 10px;
+      }
+    }
   }
 
   &.full-width .container {
@@ -25,5 +56,17 @@ section {
 
   .small-row.container {
     max-width: $max_width_small_row;
+  }
+
+  .row-no-gutter .content {
+    justify-content: normal;
+
+    .default, .two-columns, .three-columns, .four-columns, .five-columns, .six-columns {
+      margin-bottom: 0;
+
+      @media (min-width: $screen-md) {
+        margin-bottom: 0;
+      }
+    }
   }
 }

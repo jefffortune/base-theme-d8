@@ -2,32 +2,6 @@
 
   .container {
 
-    .content {
-      @media (min-width: $screen-md) {
-        display: flex;
-        flex-flow: row wrap;
-        justify-content: space-between;
-      }
-    }
-
-    .default, .two-columns, .three-columns {
-      margin-bottom: em(10);
-
-      @media (min-width: $screen-md) {
-        margin-bottom: em(20);
-      }
-    }
-
-    .item {
-      > * {
-        display: block;
-      }
-
-      > *:not(img) {
-        padding: 10px;
-      }
-    }
-
     .default {
       width: 100%;
 
@@ -43,15 +17,6 @@
   }
 
   .row-no-gutter .content {
-    justify-content: normal;
-
-    .default, .two-columns, .three-columns {
-      margin-bottom: 0;
-
-      @media (min-width: $screen-md) {
-        margin-bottom: 0;
-      }
-    }
 
     .default {
       width: 100%;
@@ -65,6 +30,5 @@
     .two-columns {
       width: 100%;
     }
-
   }
 }

@@ -1,0 +1,222 @@
+.six-col-row {
+
+  .container {
+
+    .default {
+      width: 49%;
+
+      @media (min-width: $screen-md) {
+        width: calc((1 / 5 * 100%) - .5%);
+      }
+
+      @media (min-width: $screen-lg) {
+        width: calc((1/6 * 100%) - .5%);
+      }
+    }
+
+    .two-columns {
+      width: 49%;
+
+      @media (min-width: $screen-md) {
+        width: calc((2 / 5 * 100%) - .5%);
+      }
+
+      @media (min-width: $screen-lg) {
+        width: calc((2/6 * 100%) - .5%);
+      }
+    }
+
+    .three-columns {
+      width: 100%;
+
+      @media (min-width: $screen-md) {
+        width: calc((3 / 5 * 100%) - .5%);
+      }
+
+      @media (min-width: $screen-lg) {
+        width: calc((3/6 * 100%) - .5%);
+      }
+    }
+
+    .four-columns {
+      width: 100%;
+
+      @media (min-width: $screen-md) {
+        width: calc((4/5 * 100%) - .5%);
+      }
+
+      @media (min-width: $screen-lg) {
+        width: calc((4/6 * 100%) - .5%);
+      }
+    }
+
+    .five-columns {
+      width: 100%;
+
+      @media (min-width: $screen-md) {
+        width: 100%;
+      }
+
+      @media (min-width: $screen-lg) {
+        width: calc((5/6 * 100%) - .5%);
+      }
+    }
+
+    .six-columns {
+      width: 100%;.default {
+      width: 49%;
+
+      @media (min-width: $screen-md) {
+        width: calc((1 / 5 * 100%) - .5%);
+      }
+
+      @media (min-width: $screen-lg) {
+        width: calc((1/6 * 100%) - .5%);
+      }
+    }
+
+      .two-columns {
+        width: 49%;
+
+        @media (min-width: $screen-md) {
+          width: calc((2 / 5 * 100%) - .5%);
+        }
+
+        @media (min-width: $screen-lg) {
+          width: calc((2/6 * 100%) - .5%);
+        }
+      }
+
+      .three-columns {
+        width: 100%;
+
+        @media (min-width: $screen-md) {
+          width: calc((3 / 5 * 100%) - .5%);
+        }
+
+        @media (min-width: $screen-lg) {
+          width: calc((3/6 * 100%) - .5%);
+        }
+      }
+
+      .four-columns {
+        width: 100%;
+
+        @media (min-width: $screen-md) {
+          width: calc((4/5 * 100%) - .5%);
+        }
+
+        @media (min-width: $screen-lg) {
+          width: calc((4/6 * 100%) - .5%);
+        }
+      }
+
+      .five-columns {
+        width: 100%;
+
+        @media (min-width: $screen-md) {
+          width: 100%;
+        }
+
+        @media (min-width: $screen-lg) {
+          width: calc((5/6 * 100%) - .5%);
+        }
+      }
+
+      .six-columns {
+        width: 100%;
+
+        @media (min-width: $screen-md) {
+          width: 100%;
+        }
+
+        @media (min-width: $screen-lg) {
+          width: 100%;
+        }
+      }
+
+      @media (min-width: $screen-md) {
+        width: 100%;
+      }
+
+      @media (min-width: $screen-lg) {
+        width: 100%;
+      }
+    }
+  }
+
+  .row-no-gutter .content {
+
+    .default {
+      width: 49%;
+
+      @media (min-width: $screen-md) {
+        width: calc(1/5 * 100%);
+      }
+
+      @media (min-width: $screen-lg) {
+        width: calc(1/6 * 100%);
+      }
+    }
+
+    .two-columns {
+      width: 49%;
+
+      @media (min-width: $screen-md) {
+        width: calc(2 / 5 * 100%);
+      }
+
+      @media (min-width: $screen-lg) {
+        width: calc(2/6 * 100%);
+      }
+    }
+
+    .three-columns {
+      width: 100%;
+
+      @media (min-width: $screen-md) {
+        width: calc(3 / 5 * 100%);
+      }
+
+      @media (min-width: $screen-lg) {
+        width: calc(3/6 * 100%);
+      }
+    }
+
+    .four-columns {
+      width: 100%;
+
+      @media (min-width: $screen-md) {
+        width: calc(4/5 * 100%);
+      }
+
+      @media (min-width: $screen-lg) {
+        width: calc(4/6 * 100%);
+      }
+    }
+
+    .five-columns {
+      width: 100%;
+
+      @media (min-width: $screen-md) {
+        width: 100%;
+      }
+
+      @media (min-width: $screen-lg) {
+        width: calc(5/6 * 100%);
+      }
+    }
+
+    .six-columns {
+      width: 100%;
+
+      @media (min-width: $screen-md) {
+        width: 100%;
+      }
+
+      @media (min-width: $screen-lg) {
+        width: 100%;
+      }
+    }
+  }
+}
