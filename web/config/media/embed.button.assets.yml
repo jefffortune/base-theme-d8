@@ -1,0 +1,19 @@
+langcode: en
+status: true
+dependencies:
+  content:
+    - 'file:file:fe9dcdb6-4db6-435e-bfd3-432ff5d0613c'
+  module:
+    - entity_embed
+    - media
+label: Assets
+id: assets
+type_id: entity
+type_settings:
+  entity_type: media
+  bundles: {  }
+  display_plugins: {  }
+  entity_browser: assets
+  entity_browser_settings:
+    display_review: true
+icon_uuid: fe9dcdb6-4db6-435e-bfd3-432ff5d0613c

@@ -26,6 +26,7 @@ function tombras_extras_preprocess_paragraph__container(&$variables) {
 
 // inline entity form table override for displaying the bricks layout.
 function tombras_extras_preprocess_inline_entity_form_entity_table(&$variables) {
+  /*
   _tombras_extras_form_preprocess_inline_entity_form_entity_table($variables);
   $form = $variables['form'];
   if (!empty($variables['table']['#tabledrag'])) {
@@ -39,7 +40,8 @@ function tombras_extras_preprocess_inline_entity_form_entity_table(&$variables) 
     // Get all rows that will be in the table and loop through them
     // to assign a layout according to the type of paragraph they are.
     for($i = 0; $i < sizeOf($variables['table']['#rows']); $i++) {
-      $type = $form[$i]['#entity']->getType();
+      // @todo fix getType() error thrown on entity ref fields with unlimited.
+      $type = $form[$i]['#entity']->getType() : 'asset';
       // Bricks has a different data structure then normal paragraphs so
       // we are checking them separately so we get them all.
       if($type === 'layout') {
@@ -68,6 +70,7 @@ function tombras_extras_preprocess_inline_entity_form_entity_table(&$variables) 
     // Let send this ot bricks to finish up prepossessing the table.
     _bricks_preprocess_tabledrag_form($variables, 'form', 'bricks_tree_inline', 'ief-entity-delta', TRUE);
   }
+  */
 }
 // basic render function took from IEF Module.
 function tombras_extras_inline_entity_form_entity_table(&$variables) {

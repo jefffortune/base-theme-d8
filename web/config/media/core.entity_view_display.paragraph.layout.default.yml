@@ -1,0 +1,49 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.layout.field_modifiers
+    - paragraphs.paragraphs_type.layout
+  module:
+    - bricks
+    - layout_builder
+    - layout_discovery
+third_party_settings:
+  layout_builder:
+    sections:
+      -
+        layout_id: layout_onecol
+        layout_settings: {  }
+        components:
+          38d0bed7-f58b-42ff-9d14-e0005e987c6e:
+            uuid: 38d0bed7-f58b-42ff-9d14-e0005e987c6e
+            region: content
+            configuration:
+              id: 'field_block:paragraph:layout:field_modifiers'
+              label_display: ''
+              formatter:
+                label: above
+                settings:
+                  view_mode: default
+                  link: false
+                third_party_settings: {  }
+                type: bricks_nested
+              context_mapping:
+                entity: layout_builder.entity
+            additional: {  }
+            weight: 0
+id: paragraph.layout.default
+targetEntityType: paragraph
+bundle: layout
+mode: default
+content:
+  field_modifiers:
+    weight: 0
+    label: above
+    settings:
+      view_mode: default
+      link: false
+    third_party_settings: {  }
+    type: bricks_nested
+    region: content
+hidden: {  }
