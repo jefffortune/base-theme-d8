@@ -150,6 +150,7 @@ function _tombras_extras_form_preprocess_inline_entity_form_entity_table(&$varia
       }
 
       $cells[] = ['data' => $data, 'class' => ['inline-entity-form-' . $entity_type . '-' . $field_name]];
+      $n = $cells;
     }
 
     // Add the buttons belonging to the "Operations" column.
