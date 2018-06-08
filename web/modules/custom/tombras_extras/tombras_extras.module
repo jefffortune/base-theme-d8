@@ -39,6 +39,7 @@ function tombras_extras_preprocess_inline_entity_form_entity_table(&$variables) 
     // Get all rows that will be in the table and loop through them
     // to assign a layout according to the type of paragraph they are.
     for($i = 0; $i < sizeOf($variables['table']['#rows']); $i++) {
+      unset($form[$i]['options']['css_class']);
       $type = $form[$i]['#entity']->getType();
       // Bricks has a different data structure then normal paragraphs so
       // we are checking them separately so we get them all.
@@ -112,7 +113,7 @@ function _tombras_extras_form_preprocess_inline_entity_form_entity_table(&$varia
   foreach (Element::children($form) as $key) {
     /** @var \Drupal\Core\Entity\FieldableEntityInterface $entity */
     $entity = $form[$key]['#entity'];
-    $row_classes = ['ief-row-entity'];
+    $row_classes = ['ief-row-entity', strtolower($entity->type->entity->label())];
     $cells = [];
     if ($has_tabledrag) {
       $cells[] = ['data' => '', 'class' => ['ief-tabledrag-handle']];
@@ -128,13 +129,16 @@ function _tombras_extras_form_preprocess_inline_entity_form_entity_table(&$varia
     foreach ($fields as $field_name => $field) {
       $data = '';
       if ($field['type'] == 'label') {
-        $data = $variables['form'][$key]['#label'];
+        if ($entity->type->entity->label() === 'Layout') {
+          $data = "<h3>" . $entity->field_label->value . "</h3>";
+        }
       }
       elseif ($field['type'] == 'field' && $entity->hasField($field_name)) {
         $display_options = ['label' => 'hidden'];
         if (isset($field['display_options'])) {
           $display_options += $field['display_options'];
         }
+        //here
         $data = $entity->get($field_name)->view($display_options);
       }
       elseif ($field['type'] == 'callback') {
@@ -150,7 +154,6 @@ function _tombras_extras_form_preprocess_inline_entity_form_entity_table(&$varia
       }
 
       $cells[] = ['data' => $data, 'class' => ['inline-entity-form-' . $entity_type . '-' . $field_name]];
-      $n = $cells;
     }
 
     // Add the buttons belonging to the "Operations" column.

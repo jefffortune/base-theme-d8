@@ -1,0 +1,11 @@
+.ief-entity-table tr.odd {
+    background-color: #f5f5f5;
+}
+
+.ief-entity-table tr.layout {
+    background-color: rgba(127, 255, 212, .3);
+}
+
+.ief-entity-table tr.container {
+    background-color: rgba(240, 248, 255, .8);
+}

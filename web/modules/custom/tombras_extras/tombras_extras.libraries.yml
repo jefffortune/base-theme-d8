@@ -1,3 +1,6 @@
 tombras_extras:
+  css:
+    theme:
+      src/css/tombras_admin.css: {}
   js:
     src/js/admin.js: {}
