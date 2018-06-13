@@ -6,7 +6,8 @@
     },
     "css": {
       "css/styles.css":"src/scss/styles.scss",
-      "css/ckeditor.css":"src/scss/ckeditor.scss"
+      "css/ckeditor.css":"src/scss/ckeditor.scss",
+      "css/admin-styles.css":"src/scss/admin-styles.scss"
     },
     "twig": {},
     "browserSync": {
