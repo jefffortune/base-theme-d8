@@ -35,7 +35,6 @@ function tombras_extras_preprocess_inline_entity_form_entity_table(&$variables) 
         unset($variables['form'][$i]['options']['layout']['#options']['Columns: 1']);
       }
     }
-
     // Get all rows that will be in the table and loop through them
     // to assign a layout according to the type of paragraph they are.
     for($i = 0; $i < sizeOf($variables['table']['#rows']); $i++) {
@@ -131,20 +130,23 @@ function _tombras_extras_form_preprocess_inline_entity_form_entity_table(&$varia
     foreach ($fields as $field_name => $field) {
       $data = '';
       if ($field['type'] == 'label') {
-        $data = $variables['form'][$key]['#label'];
-      }
-      elseif ($field['type'] == 'field' && $entity->hasField($field_name)) {
+        if ($entity->type->entity->label() === 'Layout') {
+          $data = "<h3>" . $entity->field_label->value . "</h3>";
+        }
+      } elseif ($field['type'] == 'field' && $entity->hasField($field_name)) {
         $display_options = ['label' => 'hidden'];
         if (isset($field['display_options'])) {
           $display_options += $field['display_options'];
         }
+        //here
         $data = $entity->get($field_name)->view($display_options);
-      }
-      elseif ($field['type'] == 'callback') {
+      } elseif ($field['type'] == 'callback') {
+
         $arguments = [
           'entity' => $entity,
           'variables' => $variables,
         ];
+
         if (isset($field['callback_arguments'])) {
           $arguments = array_merge($arguments, $field['callback_arguments']);
         }
