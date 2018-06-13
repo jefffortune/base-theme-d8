@@ -84,6 +84,9 @@ dependencies:
   - pathauto
   - views
   - paragraphs
+  - link_attributes
+  - editor_advanced_link
+
 themes:
   - stable
   - classy
