@@ -1,0 +1,45 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.background_color.field_background_color
+    - paragraphs.paragraphs_type.background_color
+  module:
+    - layout_builder
+    - layout_discovery
+    - options
+third_party_settings:
+  layout_builder:
+    sections:
+      -
+        layout_id: layout_onecol
+        layout_settings: {  }
+        components:
+          5cf025af-396d-4a35-8c83-d1a7a877900a:
+            uuid: 5cf025af-396d-4a35-8c83-d1a7a877900a
+            region: content
+            configuration:
+              id: 'field_block:paragraph:background_color:field_background_color'
+              label_display: ''
+              formatter:
+                label: above
+                settings: {  }
+                third_party_settings: {  }
+                type: list_default
+              context_mapping:
+                entity: layout_builder.entity
+            additional: {  }
+            weight: 0
+id: paragraph.background_color.default
+targetEntityType: paragraph
+bundle: background_color
+mode: default
+content:
+  field_background_color:
+    weight: 0
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    type: list_default
+    region: content
+hidden: {  }

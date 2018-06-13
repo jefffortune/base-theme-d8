@@ -17,7 +17,7 @@
     ],
     "require": {
         "composer/installers": "^1.2",
-        "cweagans/composer-patches": "^1.6",
+        "cweagans/composer-patches": "^1.6.4",
         "drupal-composer/drupal-scaffold": "^2.2",
         "drupal/admin_toolbar": "^1.23",
         "drupal/agnian_material_admin": "^1.27",
@@ -25,8 +25,14 @@
         "drupal/bricks": "^1.6",
         "drupal/console": "^1.0.2",
         "drupal/core": "~8.5.3",
+        "drupal/crop": "^1.5",
         "drupal/devel": "^1.2",
-        "drupal/entity_browser": "^1.4",
+        "drupal/drush": "^6.0@RC",
+        "drupal/embed": "^1.0",
+        "drupal/entity_browser": "^1.5",
+        "drupal/entity_browser_enhanced": "^1.0@RC",
+        "drupal/entity_browser_entity_form": "^1.5",
+        "drupal/entity_embed": "^1.0@beta",
         "drupal/extlink": "^1.1",
         "drupal/field_group": "^1.0",
         "drupal/focal_point": "^1.0@beta",
@@ -41,6 +47,8 @@
         "drupal/search_api": "^1.8",
         "drupal/simple_sitemap": "^2.12",
         "drupal/token": "^1.1",
+        "drupal/video_embed_field": "^2.0",
+        "drupal/video_embed_media": "^2.0",
         "drupal/viewsreference": "^1.2",
         "drupal/webform": "^5.0@RC",
         "drush/drush": "^9.0.0",
@@ -57,7 +65,8 @@
     "minimum-stability": "dev",
     "prefer-stable": true,
     "config": {
-        "sort-packages": true
+        "sort-packages": true,
+        "preferred-install": "source"
     },
     "autoload": {
         "classmap": [
@@ -88,6 +97,14 @@
             "web/profiles/contrib/{$name}": ["type:drupal-profile"],
             "web/themes/contrib/{$name}": ["type:drupal-theme"],
             "drush/contrib/{$name}": ["type:drupal-drush"]
+        },
+        "patches": {
+          "drupal/inline_entity_form": {
+            "IEF multivalue field bug": "https://www.drupal.org/files/issues/2018-05-30/multivalue-complex-and-simple-ief-fix-2653574-100.patch"
+          },
+          "drupal/bricks": {
+            "Duplicate field storage types": "https://www.drupal.org/files/issues/2018-06-06/bricks-duplicate_field_storage_types-2885191-11.patch"
+          }
         }
     }
 }

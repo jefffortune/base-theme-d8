@@ -1,0 +1,52 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_modifiers
+    - paragraphs.paragraphs_type.background_color
+    - paragraphs.paragraphs_type.background_image
+    - paragraphs.paragraphs_type.font_color
+    - paragraphs.paragraphs_type.layout
+  module:
+    - bricks_revisions
+id: paragraph.layout.field_modifiers
+field_name: field_modifiers
+entity_type: paragraph
+bundle: layout
+label: Modifiers
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:paragraph'
+  handler_settings:
+    negate: '0'
+    target_bundles:
+      background_color: background_color
+      background_image: background_image
+      font_color: font_color
+    target_bundles_drag_drop:
+      background_color:
+        enabled: '1'
+        weight: '8'
+      background_image:
+        enabled: '1'
+        weight: '9'
+      container:
+        weight: '10'
+        enabled: 0
+      font_color:
+        enabled: '1'
+        weight: '11'
+      image:
+        weight: '12'
+        enabled: 0
+      layout:
+        weight: '13'
+        enabled: 0
+      text:
+        weight: '14'
+        enabled: 0
+field_type: bricks_revisioned

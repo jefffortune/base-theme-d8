@@ -30,8 +30,11 @@ dependencies:
   - devel
   - dynamic_page_cache
   - editor
+  - embed
+  - entity_embed
   - entity_browser
   - entity_browser_entity_form
+  - entity_browser_enhanced
   - entity_reference_revisions
   - field
   - field_group
@@ -75,6 +78,8 @@ dependencies:
   - user
   - views_ui
   - viewsreference
+  - video_embed_field
+  - video_embed_media
   - menu_link_content
   - pathauto
   - views
