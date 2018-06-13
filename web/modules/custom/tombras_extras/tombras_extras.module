@@ -39,30 +39,32 @@ function tombras_extras_preprocess_inline_entity_form_entity_table(&$variables) 
     // Get all rows that will be in the table and loop through them
     // to assign a layout according to the type of paragraph they are.
     for($i = 0; $i < sizeOf($variables['table']['#rows']); $i++) {
-      unset($form[$i]['options']['css_class']);
-      $type = $form[$i]['#entity']->getType();
-      // Bricks has a different data structure then normal paragraphs so
-      // we are checking them separately so we get them all.
-      if($type === 'layout') {
-        $layout_options = $form[$i]['options']['layout']['#options'];
-      } else {
-        $layout_options = $form[$i]["options"]["view_mode"]['#options'];
-      }
-      // The switch will pass the type down allowing the removal of any layouts that
-      // shouldn't be on a particular paragraph_item
-      switch($type) {
-        case 'layout':
-          // if they are not in the base option set then we are doing away with them.
-          $form[$i]['options']['layout']['#options'] = _tombras_extras_remove_layouts($layout_options, ['Base Layout']);
-          break;
-        case 'container':
-          // containers are special to only row level layouts, so if it not row layout then we remove it.
-          $form[$i]["options"]["view_mode"]['#options'] = _tombras_extras_remove_layouts($layout_options, ['row', 'small_row', 'full_width', 'row_no_gutter']);
-          break;
-        default:
-          // Remove all row and base layout options.
-          $form[$i]['options']['view_mode']['#options'] = _tombras_extras_remove_layouts($layout_options, ['row', 'small_row', 'full_width', 'row_no_gutter'], false);
-          break;
+      // check if type exist on the entity
+      if (!empty($form[$i]['#entity']->hasField('type'))) {
+        $type = $form[$i]['#entity']->getType();
+        // Bricks has a different data structure then normal paragraphs so
+        // we are checking them separately so we get them all.
+        if ($type === 'layout') {
+          $layout_options = $form[$i]['options']['layout']['#options'];
+        } else {
+          $layout_options = $form[$i]["options"]["view_mode"]['#options'];
+        }
+        // The switch will pass the type down allowing the removal of any layouts that
+        // shouldn't be on a particular paragraph_item
+        switch ($type) {
+          case 'layout':
+            // if they are not in the base option set then we are doing away with them.
+            $form[$i]['options']['layout']['#options'] = _tombras_extras_remove_layouts($layout_options, ['Base Layout']);
+            break;
+          case 'container':
+            // containers are special to only row level layouts, so if it not row layout then we remove it.
+            $form[$i]["options"]["view_mode"]['#options'] = _tombras_extras_remove_layouts($layout_options, ['row', 'small_row', 'full_width', 'row_no_gutter']);
+            break;
+          default:
+            // Remove all row and base layout options.
+            $form[$i]['options']['view_mode']['#options'] = _tombras_extras_remove_layouts($layout_options, ['row', 'small_row', 'full_width', 'row_no_gutter'], false);
+            break;
+        }
       }
     }
     $variables['form'] = $form;
