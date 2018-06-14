@@ -40,6 +40,7 @@ function tombras_extras_preprocess_inline_entity_form_entity_table(&$variables) 
     // to assign a layout according to the type of paragraph they are.
     for($i = 0; $i < sizeOf($variables['table']['#rows']); $i++) {
       // check if type exist on the entity
+      unset($form[$i]['options']['css_class']);
       if (!empty($form[$i]['#entity']->hasField('type'))) {
         $type = $form[$i]['#entity']->getType();
         // Bricks has a different data structure then normal paragraphs so
