@@ -9,3 +9,16 @@
 .ief-entity-table tr.container {
     background-color: rgba(240, 248, 255, .8);
 }
+
+.field--name-field-font-color .fieldset-wrapper .form-item, .field--name-field-background-color .fieldset-wrapper .form-item {
+    display: inline-block;
+}
+
+.field--name-field-font-color .fieldset-wrapper .form-item:before, .field--name-field-background-color .fieldset-wrapper .form-item:before {
+    top: 0px !important;
+    left: 8px !important;
+}
+.field--name-field-font-color .fieldset-wrapper .form-item:after, .field--name-field-background-color .fieldset-wrapper .form-item:after {
+    top: 5px !important;
+    left: 13px !important;
+}
