@@ -10,6 +10,7 @@ dependencies:
   - admin_toolbar
   - admin_toolbar_links_access_filter
   - admin_toolbar_tools
+  - autologout
   - automated_cron
   - big_pipe
   - block
@@ -29,6 +30,7 @@ dependencies:
   - dblog
   - devel
   - dynamic_page_cache
+  - eck
   - editor
   - embed
   - entity_embed
@@ -60,10 +62,13 @@ dependencies:
   - node
   - options
   - page_cache
+  - password_policy
   - path
+  - pathauto
   - picture_background_formatter
   - quickedit
   - rdf
+  - redirect
   - responsive_image
   - settings_tray
   - shortcut
