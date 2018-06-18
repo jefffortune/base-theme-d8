@@ -1,0 +1,10 @@
+name: Inline Responsive Entity
+type: module
+description: 'Allows you to use responsive styles for media entities in the WYSIWYG editor.'
+package: Editor
+version: '8.x-1.0-alpha'
+core: '8.x'
+dependencies:
+  - responsive_image
+  - editor
+  - image
