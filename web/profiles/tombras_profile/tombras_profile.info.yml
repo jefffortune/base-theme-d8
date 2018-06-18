@@ -79,6 +79,8 @@ dependencies:
   - token
   - tombras_extras
   - toolbar
+  - twig_field_value
+  - twig_tweak
   - update
   - user
   - views_ui
