@@ -1,0 +1,148 @@
+diff --git a/js/plugins/drupalentity/plugin.js b/js/plugins/drupalentity/plugin.js
+index b8a5090..81adf5e 100644
+--- a/js/plugins/drupalentity/plugin.js
++++ b/js/plugins/drupalentity/plugin.js
+@@ -27,8 +27,8 @@
+ 
+       // Generic command for adding/editing entities of all types.
+       editor.addCommand('editdrupalentity', {
+-        allowedContent: 'drupal-entity[data-embed-button,data-entity-type,data-entity-uuid,data-entity-embed-display,data-entity-embed-display-settings,data-align,data-caption]',
+-        requiredContent: 'drupal-entity[data-embed-button,data-entity-type,data-entity-uuid,data-entity-embed-display,data-entity-embed-display-settings,data-align,data-caption]',
++        allowedContent: 'drupal-entity[data-embed-button,data-entity-type,data-entity-uuid,data-entity-embed-display,data-entity-embed-display-settings,data-align,data-caption,data-responsive-style]',
++        requiredContent: 'drupal-entity[data-embed-button,data-entity-type,data-entity-uuid,data-entity-embed-display,data-entity-embed-display-settings,data-align,data-caption,data-responsive-style]',
+         modes: { wysiwyg : 1 },
+         canUndo: true,
+         exec: function (editor, data) {
+@@ -82,8 +82,8 @@
+       // Register the entity embed widget.
+       editor.widgets.add('drupalentity', {
+         // Minimum HTML which is required by this widget to work.
+-        allowedContent: 'drupal-entity[data-entity-type,data-entity-uuid,data-entity-embed-display,data-entity-embed-display-settings,data-align,data-caption]',
+-        requiredContent: 'drupal-entity[data-entity-type,data-entity-uuid,data-entity-embed-display,data-entity-embed-display-settings,data-align,data-caption]',
++        allowedContent: 'drupal-entity[data-entity-type,data-entity-uuid,data-entity-embed-display,data-entity-embed-display-settings,data-align,data-caption,data-responsive-style]',
++        requiredContent: 'drupal-entity[data-entity-type,data-entity-uuid,data-entity-embed-display,data-entity-embed-display-settings,data-align,data-caption,data-responsive-style]',
+ 
+         // Simply recognize the element as our own. The inner markup if fetched
+         // and inserted the init() callback, since it requires the actual DOM
+@@ -135,7 +135,7 @@
+           editor.ui.addButton(button.id, {
+             label: button.label,
+             data: button,
+-            allowedContent: 'drupal-entity[!data-entity-type,!data-entity-uuid,!data-entity-embed-display,!data-entity-embed-display-settings,!data-align,!data-caption,!data-embed-button]',
++            allowedContent: 'drupal-entity[!data-entity-type,!data-entity-uuid,!data-entity-embed-display,!data-entity-embed-display-settings,!data-align,!data-caption,!data-embed-button,!data-responsive-style]',
+             click: function(editor) {
+               editor.execCommand('editdrupalentity', this.data);
+             },
+diff --git a/src/EntityEmbedBuilder.php b/src/EntityEmbedBuilder.php
+index 24e716a..06b8653 100644
+--- a/src/EntityEmbedBuilder.php
++++ b/src/EntityEmbedBuilder.php
+@@ -87,6 +87,12 @@ class EntityEmbedBuilder implements EntityEmbedBuilderInterface {
+       $context
+     );
+ 
++    /** PATCH */
++    // Maintain data-responsive-style if it is there.
++    if (isset($context['data-responsive-style'])) {
++      $build['#attributes']['data-responsive-style'] = $context['data-responsive-style'];
++    }
++
+     // Maintain data-align if it is there.
+     if (isset($context['data-align'])) {
+       $build['#attributes']['data-align'] = $context['data-align'];
+diff --git a/src/Form/EntityEmbedDialog.php b/src/Form/EntityEmbedDialog.php
+index ae0194b..2dc375f 100644
+--- a/src/Form/EntityEmbedDialog.php
++++ b/src/Form/EntityEmbedDialog.php
+@@ -158,8 +158,8 @@ class EntityEmbedDialog extends FormBase {
+       'data-entity-type' => $embed_button->getTypeSetting('entity_type'),
+       'data-entity-uuid' => '',
+       'data-entity-embed-display' => 'entity_reference:entity_reference_entity_view',
+-      'data-entity-embed-display-settings' => isset($form_state->get('entity_element')['data-entity-embed-settings']) ? $form_state->get('entity_element')['data-entity-embed-settings'] : [],
+-    ];
++      'data-entity-embed-display-settings' => isset($form_state->get('entity_element')['data-entity-embed-settings']) ? $form_state->get('entity_element')['data-entity-embed-settings'] : []
++      ];
+     $form_state->set('entity_element', $entity_element);
+     $entity = $this->entityTypeManager->getStorage($entity_element['data-entity-type'])
+       ->loadByProperties(['uuid' => $entity_element['data-entity-uuid']]);
+@@ -258,6 +258,10 @@ class EntityEmbedDialog extends FormBase {
+       }
+     }
+ 
++//    $form['attributes']['data-responsive-style'] = array(
++//      '#type' => 'value',
++//    );
++
+     $form['attributes']['data-entity-uuid'] = array(
+       '#type' => 'value',
+       '#title' => $entity_element['data-entity-uuid'],
+@@ -356,6 +360,7 @@ class EntityEmbedDialog extends FormBase {
+   public function buildEmbedStep(array $form, FormStateInterface $form_state) {
+     // Entity element is calculated on every AJAX request/submit. See ::buildForm().
+     $entity_element = $form_state->get('entity_element');
++
+     /** @var \Drupal\embed\EmbedButtonInterface $embed_button */
+     $embed_button = $form_state->get('embed_button');
+     /** @var \Drupal\editor\EditorInterface $editor */
+@@ -406,12 +411,50 @@ class EntityEmbedDialog extends FormBase {
+       $entity_element['data-entity-embed-display'] = 'entity_reference:entity_reference_entity_view';
+     }
+ 
++
++
++    /** PATCHED
++     *
++     * Choose responsive style if enabled
++     * OR image style
++     *
++     */
++    // Add responsive image styles
++    // copied from web/modules/contrib/inline_responsive_images/src/Plugin/Filter/FilterImageStyle.php
++    // @todo add if isset here in case responsive not enabled.
++    $image_styles = \Drupal::entityTypeManager()->getStorage('responsive_image_style')->loadMultiple();
++    //    $form['attributes']['responsive_styles'] = array(
++    //      '#type' => 'markup',
++    //      '#markup' => 'Select the responsive styles that are available in the editor',
++    //    );
++    $responsive_styles = [];
++    foreach ($image_styles as $image_style) {
++      $responsive_styles[$image_style->id()] = $image_style->label();
++    }
++    $form['attributes']['data-responsive-style'] = array(
++      '#type' => 'select',
++      '#title' => t('Select the responsive style'),
++      '#options' => $responsive_styles,
++      '#default_value' => isset($entity_element['data-responsive-style']) ? $entity_element['data-responsive-style'] : '',
++//      '#wrapper_attributes' => array('class' => array('container-inline')),
++//      '#attributes' => array('class' => array('container-inline')),
++    );
++
++//    $form['attributes']['notes'] = array(
++//      '#title' => t('notes'),
++//      '#type' => 'markup',
++//      '#markup' => 'here: ' . print_r($entity_element, TRUE)
++//    );
++
++
++
++    // @todo hide this part of form
+     $form['attributes']['data-entity-embed-display'] = array(
+       '#type' => 'select',
+       '#title' => $this->t('Display as'),
+       '#options' => $display_plugin_options,
+       '#default_value' => $entity_element['data-entity-embed-display'],
+-      '#required' => TRUE,
++      '#required' => FALSE, //TRUE,
+       '#ajax' => array(
+         'callback' => '::updatePluginConfigurationForm',
+         'wrapper' => 'data-entity-embed-display-settings-wrapper',
+@@ -440,6 +483,9 @@ class EntityEmbedDialog extends FormBase {
+       $form['attributes']['data-entity-embed-display-settings'] += $display->buildConfigurationForm($form, $form_state);
+     }
+ 
++
++
++
+     // When Drupal core's filter_align is being used, the text editor may
+     // offer the ability to change the alignment.
+     if ($editor->getFilterFormat()->filters('filter_align')->status) {
