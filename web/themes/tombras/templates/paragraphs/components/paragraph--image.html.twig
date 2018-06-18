@@ -5,8 +5,24 @@
   view_mode ? view_mode|clean_class,
 ]
 %}
+{#{{ breakpoint() }}#}
+
+{# This returns small_row #}
+{# view_mode #}
+
+{# This gets image path public://2018-06/coltrain.jpg #}
+{#{{ kint(elements['#paragraph'].field_image.entity.get('field_media_image').entity.uri.value) }}#}
+
+{#{{ kint(responsive_images) }}#}
+
 {% block paragraph %}
     {% block content %}
-      {{ content }}
+        {#{{ content }}#}
+
+        {# Loop through images. #}
+        {% for img in responsive_images %}
+            {{ drupal_image(img.uri, img.style, responsive=true) }}
+        {% endfor %}
+
     {% endblock %}
 {% endblock paragraph %}

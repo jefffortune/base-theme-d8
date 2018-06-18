@@ -31,3 +31,46 @@ function tombras_preprocess_menu_local_tasks(&$variables) {
 function tombras_preprocess_menu_local_task(&$variables) {
   $variables['attributes']['class'][] = 'tabs__tab';
 }
+
+/**
+ * Implements template_preprocess_paragraph().
+ *
+ * @param array $variables
+ *   An associative array containing:
+ *   - elements: An array of elements to display in view mode.
+ *   - paragraph: The paragraph object.
+ *   - view_mode: View mode; e.g., 'full', 'teaser'...
+ */
+function tombras_preprocess_paragraph(&$variables) {
+  /** @var \Drupal\paragraphs\Entity\Paragraph $paragraph */
+  $paragraph = $variables['paragraph'];
+  $type = $variables['paragraph']->getType();
+
+  if($type == 'image') {
+    // Clear out session msgs each time.
+    //Drupal::messenger()->deleteAll();
+
+    // Paragraph id
+    //$id = $variables['paragraph']->id();
+
+    // Get the layout chosen on the component. small_row
+    $layout = $variables['elements']['#view_mode'];
+
+    // Get image uri from field that is an entity ref to media,
+    // which is a reference to a file.
+    $uri = '';
+    $parents = $paragraph->get('field_image')->referencedEntities();
+    foreach($parents as $parent) {
+      // Map layout to responsive style.
+      // @todo create lookup method, pass view_mode return get style
+      $style = 'rtest';
+      $uri = $parent->get('field_media_image')->referencedEntities()[0]->get('uri')->getValue()[0]['value'];
+      // Pass the responsive style and img uri
+      $variables['responsive_images'][] = [
+        'uri' => $uri,
+        'style' => $style
+      ];
+    }
+  }
+  //ksm($variables['responsive_images']);
+}
