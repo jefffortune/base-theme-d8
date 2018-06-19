@@ -1,0 +1,23 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - media.type.image
+  content:
+    - 'file:file:d9e859ef-bb3f-4364-8234-0ed2b563535b'
+  module:
+    - entity_embed
+    - media
+label: 'Media Library Images'
+id: media_library_images
+type_id: entity
+type_settings:
+  entity_type: media
+  bundles:
+    - image
+  display_plugins:
+    - 'view_mode:media.full'
+  entity_browser: media_library_images
+  entity_browser_settings:
+    display_review: false
+icon_uuid: d9e859ef-bb3f-4364-8234-0ed2b563535b
