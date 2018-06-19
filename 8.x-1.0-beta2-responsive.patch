@@ -51,7 +51,7 @@ index 24e716a..06b8653 100644
      if (isset($context['data-align'])) {
        $build['#attributes']['data-align'] = $context['data-align'];
 diff --git a/src/Form/EntityEmbedDialog.php b/src/Form/EntityEmbedDialog.php
-index ae0194b..2dc375f 100644
+index ae0194b..04dc00d 100644
 --- a/src/Form/EntityEmbedDialog.php
 +++ b/src/Form/EntityEmbedDialog.php
 @@ -158,8 +158,8 @@ class EntityEmbedDialog extends FormBase {
@@ -65,18 +65,7 @@ index ae0194b..2dc375f 100644
      $form_state->set('entity_element', $entity_element);
      $entity = $this->entityTypeManager->getStorage($entity_element['data-entity-type'])
        ->loadByProperties(['uuid' => $entity_element['data-entity-uuid']]);
-@@ -258,6 +258,10 @@ class EntityEmbedDialog extends FormBase {
-       }
-     }
- 
-+//    $form['attributes']['data-responsive-style'] = array(
-+//      '#type' => 'value',
-+//    );
-+
-     $form['attributes']['data-entity-uuid'] = array(
-       '#type' => 'value',
-       '#title' => $entity_element['data-entity-uuid'],
-@@ -356,6 +360,7 @@ class EntityEmbedDialog extends FormBase {
+@@ -356,6 +356,7 @@ class EntityEmbedDialog extends FormBase {
    public function buildEmbedStep(array $form, FormStateInterface $form_state) {
      // Entity element is calculated on every AJAX request/submit. See ::buildForm().
      $entity_element = $form_state->get('entity_element');
@@ -84,65 +73,200 @@ index ae0194b..2dc375f 100644
      /** @var \Drupal\embed\EmbedButtonInterface $embed_button */
      $embed_button = $form_state->get('embed_button');
      /** @var \Drupal\editor\EditorInterface $editor */
-@@ -406,12 +411,50 @@ class EntityEmbedDialog extends FormBase {
+@@ -406,19 +407,38 @@ class EntityEmbedDialog extends FormBase {
        $entity_element['data-entity-embed-display'] = 'entity_reference:entity_reference_entity_view';
      }
  
-+
-+
-+    /** PATCHED
-+     *
-+     * Choose responsive style if enabled
-+     * OR image style
-+     *
-+     */
-+    // Add responsive image styles
-+    // copied from web/modules/contrib/inline_responsive_images/src/Plugin/Filter/FilterImageStyle.php
-+    // @todo add if isset here in case responsive not enabled.
-+    $image_styles = \Drupal::entityTypeManager()->getStorage('responsive_image_style')->loadMultiple();
-+    //    $form['attributes']['responsive_styles'] = array(
-+    //      '#type' => 'markup',
-+    //      '#markup' => 'Select the responsive styles that are available in the editor',
-+    //    );
-+    $responsive_styles = [];
-+    foreach ($image_styles as $image_style) {
-+      $responsive_styles[$image_style->id()] = $image_style->label();
++    // Choose responsive style if enabled OR image style.
++    $displayReq = TRUE;
++    $moduleHandler = \Drupal::service('module_handler');
++    if ($moduleHandler->moduleExists('responsive_image') && $embed_button->id() == 'media_library_images'){
++      $image_styles = \Drupal::entityTypeManager()->getStorage('responsive_image_style')->loadMultiple();
++      $responsive_styles = [];
++      foreach ($image_styles as $image_style) {
++        $responsive_styles[$image_style->id()] = $image_style->label();
++      }
++      $form['attributes']['data-responsive-style'] = array(
++        '#type' => 'select',
++        '#title' => t('Select the responsive style'),
++        '#options' => $responsive_styles,
++        '#default_value' => isset($entity_element['data-responsive-style']) ? $entity_element['data-responsive-style'] : '',
++      );
++      $displayReq = FALSE;
 +    }
-+    $form['attributes']['data-responsive-style'] = array(
-+      '#type' => 'select',
-+      '#title' => t('Select the responsive style'),
-+      '#options' => $responsive_styles,
-+      '#default_value' => isset($entity_element['data-responsive-style']) ? $entity_element['data-responsive-style'] : '',
-+//      '#wrapper_attributes' => array('class' => array('container-inline')),
-+//      '#attributes' => array('class' => array('container-inline')),
-+    );
 +
-+//    $form['attributes']['notes'] = array(
-+//      '#title' => t('notes'),
-+//      '#type' => 'markup',
-+//      '#markup' => 'here: ' . print_r($entity_element, TRUE)
-+//    );
-+
-+
-+
-+    // @todo hide this part of form
++    // Hide this part of form if using responsive images.
      $form['attributes']['data-entity-embed-display'] = array(
        '#type' => 'select',
        '#title' => $this->t('Display as'),
        '#options' => $display_plugin_options,
        '#default_value' => $entity_element['data-entity-embed-display'],
 -      '#required' => TRUE,
-+      '#required' => FALSE, //TRUE,
++      '#required' => $displayReq,
        '#ajax' => array(
          'callback' => '::updatePluginConfigurationForm',
          'wrapper' => 'data-entity-embed-display-settings-wrapper',
-@@ -440,6 +483,9 @@ class EntityEmbedDialog extends FormBase {
-       $form['attributes']['data-entity-embed-display-settings'] += $display->buildConfigurationForm($form, $form_state);
-     }
- 
+         'effect' => 'fade',
+       ),
+       // Hide the selection if only one option is available.
+-      '#access' => count($display_plugin_options) > 1,
++      '#access' => ($displayReq && count($display_plugin_options) > 1) ? TRUE : FALSE,
+     );
+     $form['attributes']['data-entity-embed-display-settings'] = array(
+       '#type' => 'container',
+diff --git a/src/Plugin/Filter/FilterResponsive.php b/src/Plugin/Filter/FilterResponsive.php
+new file mode 100644
+index 0000000..c4262b5
+--- /dev/null
++++ b/src/Plugin/Filter/FilterResponsive.php
+@@ -0,0 +1,150 @@
++<?php
++
++namespace Drupal\entity_embed\Plugin\Filter;
++
++use Drupal\Component\Utility\Html;
++use Drupal\filter\FilterProcessResult;
++use Drupal\filter\Plugin\FilterBase;
++
++/**
++ * Provides a filter to choose responsive style on elements.
++ *
++ * @Filter(
++ *   id = "filter_responsive",
++ *   title = @Translation("Set responsive style on images"),
++ *   description = @Translation("Uses a <code>data-responsive-style</code> attribute on <code>&lt;img&gt;</code> tags to set style on images."),
++ *   type = Drupal\filter\Plugin\FilterInterface::TYPE_TRANSFORM_REVERSIBLE
++ * )
++ */
++class FilterResponsive extends FilterBase {
++
++  // Copied from FilterResponsiveImageStyl.php in inline_responsive_images module.
++
++  /**
++   * {@inheritdoc}
++   */
++  public function process($text, $langcode) {
++    if (stristr($text, 'data-responsive-style') !== FALSE) {
++      $image_styles = \Drupal::entityTypeManager()->getStorage('responsive_image_style')->loadMultiple();
++
++      $dom = Html::load($text);
++      $xpath = new \DOMXPath($dom);
++      foreach ($xpath->query('//*[@data-entity-uuid and @data-responsive-style]') as $node) { //@data-entity-type="media" and
++        $file_uuid = $node->getAttribute('data-entity-uuid');
++        $image_style_id = $node->getAttribute('data-responsive-style');
++
++        // If the image style is not a valid one, then don't transform the HTML.
++        if (empty($file_uuid) || !isset($image_styles[$image_style_id])) {
++          continue;
++        }
++
++        // Retrieved matching file in array for the specified uuid.
++        $matching_files = \Drupal::entityTypeManager()->getStorage('media')->loadByProperties(['uuid' => $file_uuid]); // was entity_type=file
++        $media_entity = reset($matching_files);
++
++        // Stop further element processing, if it's not a valid file.
++        if (!$media_entity) {
++          continue;
++        }
++
++        $uri = $media_entity->field_media_image->entity->getFileUri();
++        $image = \Drupal::service('image.factory')->get($uri);
++
++        // Stop further element processing, if it's not a valid image.
++        if (!$image->isValid()) {
++          continue;
++        }
++
++        $width = $image->getWidth();
++        $height = $image->getHeight();
++
++        $node->removeAttribute('width');
++        $node->removeAttribute('height');
++        $node->removeAttribute('src');
++
++        // Make sure all non-regenerated attributes are retained.
++        $attributes = array();
++        for ($i = 0; $i < $node->attributes->length; $i++) {
++          $attr = $node->attributes->item($i);
++          $attributes[$attr->name] = $attr->value;
++        }
++
++        // Set up image render array.
++        $image = array(
++          '#theme' => 'responsive_image',
++          '#uri' => $uri, //$file->getFileUri(),
++          '#width' => $width,
++          '#height' => $height,
++          '#attributes' => $attributes,
++          '#responsive_image_style_id' => $image_style_id,
++        );
++
++        $altered_html = \Drupal::service('renderer')->render($image);
++
++        // Load the altered HTML into a new DOMDocument and retrieve the elements.
++        $alt_nodes = Html::load(trim($altered_html))->getElementsByTagName('body')
++          ->item(0)
++          ->childNodes;
++
++        foreach ($alt_nodes as $alt_node) {
++          // Import the updated node from the new DOMDocument into the original
++          // one, importing also the child nodes of the updated node.
++          $new_node = $dom->importNode($alt_node, TRUE);
++          // Add the image node(s)!
++          // The order of the children is reversed later on, so insert them in reversed order now.
++          $node->parentNode->insertBefore($new_node, $node);
++        }
++        // Finally, remove the original image node.
++        $node->parentNode->removeChild($node);
++      }
++
++      return new FilterProcessResult(Html::serialize($dom));
++    }
++
++    return new FilterProcessResult($text);
++  }
 +
 +
 +
-     // When Drupal core's filter_align is being used, the text editor may
-     // offer the ability to change the alignment.
-     if ($editor->getFilterFormat()->filters('filter_align')->status) {
++  /**
++   * {@inheritdoc}
++   *
++  public function process($text, $langcode) {
++    $result = new FilterProcessResult($text);
++
++    if (stristr($text, 'data-responsive-style') !== FALSE) {
++      $dom = Html::load($text);
++      $xpath = new \DOMXPath($dom);
++      foreach ($xpath->query('//*[@data-responsive-style]') as $node) {
++        // Read the data-align attribute's value, then delete it.
++        $style = $node->getAttribute('data-responsive-style');
++        $node->removeAttribute('data-responsive-style');
++
++        // @todo get style name, get responsive settings and return formatted picture tag.
++
++        $node->setAttribute('responsive-style', $style);
++
++
++        // If one of the allowed alignments, add the corresponding class.
++//        if (in_array($align, ['left', 'center', 'right'])) {
++//          $classes = $node->getAttribute('class');
++//          $classes = (strlen($classes) > 0) ? explode(' ', $classes) : [];
++//          $classes[] = 'align-' . $align;
++//          $node->setAttribute('class', implode(' ', $classes));
++//        }
++      }
++      $result->setProcessedText(Html::serialize($dom));
++    }
++
++    return $result;
++  }
++   */
++
++  /**
++   * {@inheritdoc}
++   */
++  public function tips($long = FALSE) {
++      return $this->t('<p>Set the responsive style of the image.</p>');
++  }
++
++}
