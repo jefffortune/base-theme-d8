@@ -220,6 +220,10 @@ img { border-style: none; }
 /** Hide the overflow in IE. */
 svg:not(:root) { overflow: hidden; }
 
+/** Add responsive styles for url_embed */
+.responsive-embed { position: relative; height: 0; overflow: hidden; max-width: 100%; /* padding-bottom: will be set inline for each embeds ratio */ }
+.responsive-embed iframe, .responsive-embed object, .responsive-embed embed { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
+
 /* Forms ========================================================================== */
 /** 1. Change the font styles in all browsers (opinionated). 2. Remove the margin in Firefox and Safari. */
 button, input, optgroup, select, textarea { font-family: sans-serif; /* 1 */ font-size: 100%; /* 1 */ line-height: 1.15; /* 1 */ margin: 0; /* 2 */ }
