@@ -28,3 +28,6 @@
 # Ignore .env files as they are personal
 # Uncomment lines below only comment for demo
 /.env
+
+# Ignore misc files
+.DS_Store
