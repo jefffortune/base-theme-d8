@@ -4,6 +4,10 @@
  * Install, update and uninstall functions for the tombras_profile install profile.
  */
 
+// Used for media_embed_icon.
+//use \Drupal\Core\Config\ExtensionInstallStorage;
+
+
 /**
  * Implements hook_install().
  */
@@ -14,11 +18,17 @@ function tombras_profile_install() {
 
   // Can add code in here to make nodes, terms, etc.
 
+  /* NOT WORKING YET.
   // Copy embed image from profile to site files.
-  // @todo make this more dynamic, maybe an array of src/dest files.
-  $btn      = 'media_embed_icon.png';
-  $filesDir = \Drupal::service('file_system')->realpath(file_default_scheme() . "://");
-  $src      = drupal_get_path('profile', 'tombras_profile') . '/assets/' . $btn;
-  $dest     = $filesDir . '/embed_buttons/' . $btn;
-  copy($src, $dest);
+  // @todo make this more dynamic, maybe an array of src/dest files?
+  // Example from file_browser contrib module hook_install.
+  $data = file_get_contents(dirname(__FILE__) . '/assets/media_embed_icon.png');
+  //** @var \Drupal\file\FileInterface $file *
+  $file = file_save_data($data, 'public://media_embed_icon.png', FILE_EXISTS_REPLACE);
+  // Set file uuid same as default config.
+  $uuid = (new ExtensionInstallStorage(\Drupal::service('config.storage')))->read('embed.button.media_library_images')['icon_uuid'];
+  $file->set('uuid', $uuid);
+  $file->save();
+  \Drupal::service('file.usage')->add($file, 'embed', 'embed_button', 'media_library_images');
+  */
 }
