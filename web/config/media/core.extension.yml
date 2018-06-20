@@ -9,7 +9,6 @@ module:
   block_content: 0
   breakpoint: 0
   bricks: 0
-  bricks_default: 0
   bricks_inline: 0
   bricks_revisions: 0
   ckeditor: 0
@@ -56,6 +55,7 @@ module:
   node: 0
   options: 0
   page_cache: 0
+  password_policy: 0
   path: 0
   picture_background_formatter: 0
   quickedit: 0
@@ -69,6 +69,7 @@ module:
   telephone: 0
   text: 0
   token: 0
+  tombras_extras: 0
   toolbar: 0
   twig_field_value: 0
   twig_tweak: 0
@@ -91,5 +92,4 @@ theme:
   seven: 0
   agnian_material_admin: 0
   tombras: 0
-  bartik: 0
 profile: tombras_profile

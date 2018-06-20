@@ -12,7 +12,7 @@ dependencies:
 id: media_library_images
 label: 'Media Library Images'
 module: views
-description: ''
+description: 'Entity browser used with inline embed buttons in ckeditor.'
 tag: ''
 base_table: media_field_data
 base_field: mid
