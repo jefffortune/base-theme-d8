@@ -2,8 +2,8 @@ langcode: en
 status: true
 dependencies:
   config:
-    - field.field.paragraph.image.field_image
-    - paragraphs.paragraphs_type.image
+    - eck.eck_type.brick.image
+    - field.field.brick.image.field_media_ref
   module:
     - entity_browser_entity_form
     - field_layout
@@ -13,21 +13,21 @@ third_party_settings:
   field_layout:
     id: layout_onecol
     settings: {  }
-id: paragraph.image.default
-targetEntityType: paragraph
+id: brick.image.default
+targetEntityType: brick
 bundle: image
 mode: default
 content:
-  field_image:
-    weight: 0
+  field_media_ref:
+    weight: 4
     settings:
       form_mode: default
-      override_labels: true
       label_singular: ''
       label_plural: ''
       allow_new: true
       allow_existing: true
-      match_operator: STARTS_WITH
+      match_operator: CONTAINS
+      override_labels: false
       collapsible: false
       collapsed: false
       allow_duplicate: false
@@ -36,7 +36,12 @@ content:
         entity_browser_id: assets
     type: inline_entity_form_complex
     region: content
-hidden:
-  created: true
-  status: true
-  uid: true
+  title:
+    type: string_textfield
+    weight: -5
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    region: content
+hidden: {  }

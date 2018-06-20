@@ -1,0 +1,27 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - eck.eck_type.brick.image
+    - field.storage.brick.field_media_ref
+    - media.type.image
+id: brick.image.field_media_ref
+field_name: field_media_ref
+entity_type: brick
+bundle: image
+label: 'Media Ref'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:media'
+  handler_settings:
+    target_bundles:
+      image: image
+    sort:
+      field: _none
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

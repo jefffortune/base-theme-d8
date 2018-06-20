@@ -34,6 +34,7 @@ third_party_settings:
                 entity: layout_builder.entity
             additional: {  }
             weight: 0
+    allow_custom: false
 id: media.image.default
 targetEntityType: media
 bundle: image

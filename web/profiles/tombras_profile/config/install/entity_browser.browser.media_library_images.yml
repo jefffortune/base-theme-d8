@@ -2,30 +2,29 @@ langcode: en
 status: true
 dependencies:
   config:
-    - views.view.image_browser
+    - views.view.media_library_images
   module:
     - views
-name: image_browser
-label: 'Image Browser'
-display: modal
+name: media_library_images
+label: 'Media Library Images'
+display: iframe
 display_configuration:
-  width: '1100'
+  width: '650'
   height: '500'
   link_text: 'Select entities'
-  auto_open: false
-  path: ''
+  auto_open: true
 selection_display: no_display
 selection_display_configuration: {  }
-widget_selector: tabs
+widget_selector: single
 widget_selector_configuration: {  }
 widgets:
-  f2ace7ac-aab8-45de-a462-473b2e3d012a:
+  a1d9cffb-8476-4ed5-9fc1-ab6c932f0499:
     settings:
-      view: image_browser
+      view: media_library_images
       view_display: entity_browser_1
       submit_text: 'Select entities'
       auto_select: false
-    uuid: f2ace7ac-aab8-45de-a462-473b2e3d012a
+    uuid: a1d9cffb-8476-4ed5-9fc1-ab6c932f0499
     weight: 1
     label: view
     id: view

@@ -1,0 +1,10 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - url_embed
+label: URL
+id: url
+type_id: url
+type_settings: {  }
+icon_uuid: null

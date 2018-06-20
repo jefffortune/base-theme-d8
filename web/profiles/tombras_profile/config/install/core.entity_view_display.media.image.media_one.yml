@@ -2,9 +2,11 @@ langcode: en
 status: true
 dependencies:
   config:
-    - field.field.paragraph.image.field_image
-    - paragraphs.paragraphs_type.image
+    - core.entity_view_mode.media.media_one
+    - field.field.media.image.field_media_image
+    - media.type.image
   module:
+    - image
     - layout_builder
     - layout_discovery
 third_party_settings:
@@ -14,36 +16,41 @@ third_party_settings:
         layout_id: layout_onecol
         layout_settings: {  }
         components:
-          217e8bf1-6351-42d4-9659-7dffbfd4c701:
-            uuid: 217e8bf1-6351-42d4-9659-7dffbfd4c701
+          1f31a3a5-ef15-44c6-87a2-a40f6e98e8b8:
+            uuid: 1f31a3a5-ef15-44c6-87a2-a40f6e98e8b8
             region: content
             configuration:
-              id: 'field_block:paragraph:image:field_image'
+              id: 'field_block:media:image:field_media_image'
               label: Image
               provider: layout_builder
               label_display: '0'
               formatter:
                 label: hidden
-                type: entity_reference_entity_view
+                type: responsive_image
                 settings:
-                  view_mode: media_one
+                  responsive_image_style: narrow
+                  image_link: ''
                 third_party_settings: {  }
               context_mapping:
                 entity: layout_builder.entity
             additional: {  }
             weight: 0
-id: paragraph.image.default
-targetEntityType: paragraph
+id: media.image.media_one
+targetEntityType: media
 bundle: image
-mode: default
+mode: media_one
 content:
-  field_image:
-    type: entity_reference_entity_view
-    weight: 0
-    label: above
+  field_media_image:
+    label: visually_hidden
     settings:
-      view_mode: default
-      link: false
+      image_style: ''
+      image_link: file
     third_party_settings: {  }
+    type: image
+    weight: 1
     region: content
-hidden: {  }
+hidden:
+  created: true
+  name: true
+  thumbnail: true
+  uid: true
