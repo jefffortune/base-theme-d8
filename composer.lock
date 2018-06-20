@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "7301fc1983c53cb8de9f9ce6ea6e08de",
+    "content-hash": "7140aa87f597422ade5c0f03a138da8e",
     "packages": [
         {
             "name": "ajgl/breakpoint-twig-extension",
@@ -183,16 +183,16 @@
         },
         {
             "name": "chi-teck/drupal-code-generator",
-            "version": "1.24.0",
+            "version": "1.25.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Chi-teck/drupal-code-generator.git",
-                "reference": "20682ec4acc92e9671ba7b9bd0e972978c3a08f2"
+                "reference": "9d3b25c5e3bb57a081c6c47d1f6d08a1a2c7a7db"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Chi-teck/drupal-code-generator/zipball/20682ec4acc92e9671ba7b9bd0e972978c3a08f2",
-                "reference": "20682ec4acc92e9671ba7b9bd0e972978c3a08f2",
+                "url": "https://api.github.com/repos/Chi-teck/drupal-code-generator/zipball/9d3b25c5e3bb57a081c6c47d1f6d08a1a2c7a7db",
+                "reference": "9d3b25c5e3bb57a081c6c47d1f6d08a1a2c7a7db",
                 "shasum": ""
             },
             "require": {
@@ -218,7 +218,7 @@
                 "GPL-2.0-or-later"
             ],
             "description": "Drupal code generator",
-            "time": "2018-04-25T17:35:50+00:00"
+            "time": "2018-06-20T07:01:01+00:00"
         },
         {
             "name": "composer/installers",
@@ -2967,7 +2967,8 @@
                     }
                 },
                 "patches_applied": {
-                    "Add responsive styles to embed entity form": "8.x-1.0-beta2-responsive.patch"
+                    "Add responsive styles to embed entity form": "8.x-1.0-beta2-responsive.patch",
+                    "Fix php notice on display_review var": "https://www.drupal.org/files/issues/entity_embed-display-review-default-2926916-2.patch"
                 }
             },
             "notification-url": "https://packages.drupal.org/8/downloads",
