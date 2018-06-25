@@ -7,8 +7,8 @@ dependencies:
     - tombras
 id: tombras_messages
 theme: tombras
-region: header
-weight: 0
+region: feature
+weight: -6
 provider: null
 plugin: system_messages_block
 settings:

@@ -7,7 +7,7 @@ dependencies:
     - tombras
 id: tombras_help
 theme: tombras
-region: content
+region: feature
 weight: -30
 provider: null
 plugin: help_block

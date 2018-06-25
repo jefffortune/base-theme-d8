@@ -1,0 +1,16 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - focal_point
+name: hero_image_basic__tombras_medium_2x
+label: hero-image-basic--tombras.medium-2x
+effects:
+  8b0b7382-9d7e-4ead-a42d-73113d9094db:
+    uuid: 8b0b7382-9d7e-4ead-a42d-73113d9094db
+    id: focal_point_scale_and_crop
+    weight: 1
+    data:
+      width: 1984
+      height: 880
+      crop_type: focal_point
