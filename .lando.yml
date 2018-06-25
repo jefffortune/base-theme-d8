@@ -1,4 +1,4 @@
-name: drupal-base
+name: tombras_demo
 recipe: drupal8
 config:
   webroot: web

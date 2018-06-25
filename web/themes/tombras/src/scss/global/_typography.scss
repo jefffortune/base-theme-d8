@@ -1,9 +1,13 @@
 h1,h2,h3,h4,h5,h6 {
-
+  font-family: $font-secondary;
+  letter-spacing: 2px;
+  font-variant: small-caps;
 }
 
 h1 {
-
+  &.section-title {
+    text-align: center;
+  }
 }
 
 h2 {
@@ -26,7 +30,23 @@ h6 {
 
 }
 
+p, a {
+  font-size: em(16);
+  font-family: $font-primary;
+  letter-spacing: em(.3, 16);
+
+  @media (min-width: $screen-md) {
+    font-size: em(18);
+    letter-spacing: em(.3, 18);
+  }
+}
+
 p {
+  line-height: 1.4;
+
+  a {
+    line-height: 1.4;
+  }
 
 }
 

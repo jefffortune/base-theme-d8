@@ -1,0 +1,46 @@
+.main-menu {
+  ul {
+    margin: em(8) 0 0;
+    list-style: none;
+
+    li {
+      display: inline-block;
+      margin-right: em(20);
+    }
+  }
+
+  @media (max-width: $screen-md-max) {
+    &.menu-open {
+      display: block !important;
+      position: fixed;
+      background-color: rgba( $color-primary, .9);
+      z-index: 100;
+      top: em(54);
+      right: 0;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      text-align: center;
+
+      @media (min-width: $screen-sm) {
+        top: em(68);
+      }
+
+      ul {
+        margin: 0;
+        padding: em(20) em(10);
+        overflow: scroll;
+        height: 100%;
+
+        li {
+          display: block;
+          margin-bottom: 20px;
+
+          a {
+            font-size: em(20);
+          }
+        }
+      }
+    }
+  }
+}

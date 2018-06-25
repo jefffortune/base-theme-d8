@@ -50,8 +50,12 @@ section {
     max-width: 100%;
   }
 
-  .row.container, .row-no-gutter.container {
+  .row.container {
     max-width: $max_width_row;
+  }
+
+  .row-no-gutter.container {
+    max-width: em(900);
   }
 
   .small-row.container {

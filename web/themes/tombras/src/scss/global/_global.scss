@@ -1,0 +1,53 @@
+header {
+  background-color: $color-primary;
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.4);
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 10;
+}
+
+.toolbar-fixed {
+  header {
+    top: em(38);
+  }
+
+  #block-tombras-main-menu .main-menu {
+    top: em(106);
+  }
+  &.toolbar-horizontal.toolbar-tray-open {
+    header {
+      top: em(88);
+    }
+
+    #block-tombras-main-menu .main-menu {
+      top: em(143);
+    }
+  }
+
+}
+
+.layout-content {
+  width: 100%;
+  transition: width .4s ease;
+  margin-top: em(54);
+
+  @media (min-width: $screen-sm) {
+    margin-top: em(68);
+  }
+}
+
+#block-tombras-breadcrumbs {
+  visibility: hidden !important;
+  height: 0!important;
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+
+@import "menus/tools/tool-menu";
+@import "menus/tools/tools-open";
+@import "menus/main-menu";
+@import "footer";

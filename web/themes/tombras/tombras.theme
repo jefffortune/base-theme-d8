@@ -1,76 +1,19 @@
 <?php
 
-/**
- * Implements hook_pre_render_HOOK() for menu-local-tasks templates.
- *
- * Use preprocess hook to set #attached to child elements
- * because they will be processed by Twig and drupal_render will
- * be invoked.
- */
-function tombras_preprocess_menu_local_tasks(&$variables) {
-  if (!empty($variables['primary'])) {
-    $variables['attributes']['class'][] = 'tabs';
-    $variables['primary']['#attached'] = [
-      'library' => [
-        'agnian_material_admin/drupal.nav-tabs',
-      ],
-    ];
+//function tombras_preprocess_region(&$variables) {
+//  kint($variables);
+//  if ($variables['region'] === 'tombras_tools') {
+//    $variables['attributes']['class'] = 'tabs';
+//  }
+//}
+
+function tombras_preprocess_paragraph__icon_call_outs(&$variables) {
+  $count = 0;
+  foreach ($variables['content']['_layout_builder'][0]['content'] as $key => $content) {
+    $variables['content']['_layout_builder'][0]['content'][$count] = $content;
+    unset($variables['content']['_layout_builder'][0]['content'][$key]);
+    $count++;
   }
-  elseif (!empty($variables['secondary'])) {
-    $variables['secondary']['#attached'] = [
-      'library' => [
-        'agnian_material_admin/drupal.nav-tabs',
-      ],
-    ];
-  }
-}
 
-/**
- * Implements hook_preprocess_HOOK() for menu-local-task templates.
- */
-function tombras_preprocess_menu_local_task(&$variables) {
-  $variables['attributes']['class'][] = 'tabs__tab';
-}
-
-/**
- * Implements template_preprocess_paragraph().
- *
- * @param array $variables
- *   An associative array containing:
- *   - elements: An array of elements to display in view mode.
- *   - paragraph: The paragraph object.
- *   - view_mode: View mode; e.g., 'full', 'teaser'...
- */
-function tombras_preprocess_paragraph(&$variables) {
-  /** @var \Drupal\paragraphs\Entity\Paragraph $paragraph */
-  $paragraph = $variables['paragraph'];
-  $type = $variables['paragraph']->getType();
-
-  if($type == 'image') {
-    // Clear out session msgs each time.
-    //Drupal::messenger()->deleteAll();
-
-    // Paragraph id
-    //$id = $variables['paragraph']->id();
-
-    // Get the layout chosen on the component. small_row
-    $layout = $variables['elements']['#view_mode'];
-
-    // Get image uri from field that is an entity ref to media,
-    // which is a reference to a file.
-    $uri = '';
-    $parents = $paragraph->get('field_image')->referencedEntities();
-    foreach($parents as $parent) {
-      // Map layout to responsive style.
-      // @todo create lookup method, pass view_mode return get style
-      $style = 'rtest';
-      $uri = $parent->get('field_media_image')->referencedEntities()[0]->get('uri')->getValue()[0]['value'];
-      // Pass the responsive style and img uri
-      $variables['responsive_images'][] = [
-        'uri' => $uri,
-        'style' => $style
-      ];
-    }
-  }
-  //ksm($variables['responsive_images']);
+  return $variables;
 }

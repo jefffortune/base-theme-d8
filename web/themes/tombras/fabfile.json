@@ -2,11 +2,13 @@
   "build": {
     "meta": {},
     "js": {
-      "js/main.min.js":"src/js/main.js"
+      "js/main.min.js":"src/js/main.js",
+      "js/tombras_tools.min.js":"src/js/tombras_tools.js"
     },
     "css": {
       "css/styles.css":"src/scss/styles.scss",
-      "css/ckeditor.css":"src/scss/ckeditor.scss"
+      "css/ckeditor.css":"src/scss/ckeditor.scss",
+      "css/admin-styles.css":"src/scss/admin-styles.scss"
     },
     "twig": {},
     "browserSync": {

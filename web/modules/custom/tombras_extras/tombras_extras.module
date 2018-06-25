@@ -40,7 +40,8 @@ function tombras_extras_preprocess_inline_entity_form_entity_table(&$variables) 
     // to assign a layout according to the type of paragraph they are.
     for($i = 0; $i < sizeOf($variables['table']['#rows']); $i++) {
       // check if type exist on the entity
-      if (!empty($form[$i]['#entity']->hasField('type'))) {
+      unset($form[$i]['options']['css_class']);
+      if (isset($form[$i]['#entity']) && !empty($form[$i]['#entity']->hasField('type'))) {
         $type = $form[$i]['#entity']->getType();
         // Bricks has a different data structure then normal paragraphs so
         // we are checking them separately so we get them all.
@@ -115,7 +116,11 @@ function _tombras_extras_form_preprocess_inline_entity_form_entity_table(&$varia
   foreach (Element::children($form) as $key) {
     /** @var \Drupal\Core\Entity\FieldableEntityInterface $entity */
     $entity = $form[$key]['#entity'];
-    $row_classes = ['ief-row-entity'];
+    if($entity->hasField('type')) {
+      $row_classes = ['ief-row-entity', strtolower($entity->type->target_id)];
+    } else {
+      $row_classes = ['ief-row-entity'];
+    }
     $cells = [];
     if ($has_tabledrag) {
       $cells[] = ['data' => '', 'class' => ['ief-tabledrag-handle']];
@@ -128,19 +133,37 @@ function _tombras_extras_form_preprocess_inline_entity_form_entity_table(&$varia
       $row_classes[] = 'ief-row-entity-form';
     }
 
+
+
     foreach ($fields as $field_name => $field) {
       $data = '';
-      if ($field['type'] == 'label') {
-        $data = $variables['form'][$key]['#label'];
+      if ($entity_type === 'media') {
+        $file = $entity->get('field_media_image_1')->entity;
+        $renderer = \Drupal::service('renderer');
+        $tn_render_array = [
+          '#theme' => 'image_style',
+          '#width' => $entity->thumbnail->width,
+          '#height' => $entity->thumbnail->height,
+          '#style_name' => 'thumbnail',
+          '#uri' => $file->getFileUri(),
+        ];
+        $r = $renderer->addCacheableDependency($tn_render_array, $file);
+        $data = $tn_render_array;
+      }
+      if ($entity->hasField('type') && $field['type'] == 'label') {
+        if ($entity->type->entity->label() === 'Layout') {
+          $data = "<h3>" . $entity->field_label->value . "</h3>";
+        }
       }
       elseif ($field['type'] == 'field' && $entity->hasField($field_name)) {
         $display_options = ['label' => 'hidden'];
         if (isset($field['display_options'])) {
           $display_options += $field['display_options'];
         }
+        //here
         $data = $entity->get($field_name)->view($display_options);
       }
-      elseif ($field['type'] == 'callback') {
+      elseif ($entity->hasField('type') && $field['type'] == 'callback') {
         $arguments = [
           'entity' => $entity,
           'variables' => $variables,

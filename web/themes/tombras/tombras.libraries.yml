@@ -2,8 +2,10 @@ global-styling:
   css:
     theme:
       css/styles.css: {}
+      css/admin-styles.css: {}
   js:
     js/main.min.js: {}
+    js/tombras_tools.min.js: {}
   dependencies:
     - core/jquery
     - core/jquery.once

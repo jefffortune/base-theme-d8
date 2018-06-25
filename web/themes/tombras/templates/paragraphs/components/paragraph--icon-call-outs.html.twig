@@ -1,0 +1,33 @@
+{%
+  set classes = [
+  'paragraph-' ~ paragraph.id(),
+  paragraph.bundle|clean_class,
+  view_mode ? view_mode|clean_class,
+]
+%}
+{% block paragraph %}
+
+    {% block content %}
+      {% if  content._layout_builder.0.content.2 | render %}
+        {% set classes = classes|merge(['is-link']) %}
+        <a href="{{ content._layout_builder.0.content.2.content.0['#url'] | render }}" {{ attributes.addClass(classes) }}>
+          {{ content._layout_builder.0.content.0 }}
+          <div class="body-content">
+            {{ content._layout_builder.0.content.1 }}
+            <span class="feature-link-title">
+              {{ content._layout_builder.0.content.2.content.0['#title'] }}
+            </span>
+          </div>
+        </a>
+      {% else %}
+        <div {{ attributes.addClass(classes) }}>
+          {{ content._layout_builder.0.content.0 }}
+          <div class="body-content">
+            {{ content._layout_builder.0.content.1 }}
+          </div>
+        </div>
+      {% endif %}
+
+    {% endblock %}
+
+{% endblock paragraph %}

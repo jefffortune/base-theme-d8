@@ -5,14 +5,16 @@
 @import "variables";
 @import "normalize";
 
-//utilities
-@import "utility/tabs";
-
+// call global includes
+@include normalize()
 // globals
+@import "global/global";
+@import "global/nav-bar";
 @import "global/typography";
 @import "global/forms";
 // grid
 @import "global/grid/grid";
+//components
+@import "components/components";
 
-// call global includes
-@include normalize()
+

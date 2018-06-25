@@ -1,0 +1,94 @@
+.tombras-tools {
+  width: 0;
+  height: 100%;
+  display: none;
+  transition: width .4s ease;
+
+  .tool-menu {
+    width: 0;
+    display: none;
+    transition: width .4s ease;
+    box-sizing: border-box;
+    padding: 30px 20px;
+    position: sticky;
+    top: 160px;
+
+    ul {
+      margin:  0;
+      list-style: none;
+
+      li {
+        display: block;
+        margin-bottom: 15px;
+
+        a {
+          color: $color-white;
+          font-size: em(18);
+          text-decoration: none;
+        }
+      }
+    }
+  }
+
+  &.active--tool-menu {
+    display: block;
+    background-color: $color-secondary;
+
+
+    .tool-menu {
+      width: 100%;
+      display: block;
+    }
+  }
+
+
+}
+
+.tool-trigger {
+  position: fixed;
+  top: 50%;
+  left: 25px;
+  transform: translateY(-50%);
+  width: 30px;
+  height: 30px;
+  background-color: $color-title-blue;
+  border-radius: 30px;
+  outline: 0;
+  border: 0;
+  box-shadow: 1px 2px 2px 0px rgba(0, 0, 0, .7);
+  z-index: 5;
+  transition: left .4s ease;
+
+  svg {
+    position: absolute;
+    display: block;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    stroke: $color-white;
+
+    &:last-of-type {
+      display: none;
+    }
+  }
+
+  &.change {
+    left: 235px;
+    top: 150px;
+
+
+    @media (min-width: em(680)) {
+      top: 50%;
+    }
+
+    svg {
+      &:first-of-type {
+        display: none;
+      }
+
+      &:last-of-type {
+        display: block;
+      }
+    }
+  }
+}

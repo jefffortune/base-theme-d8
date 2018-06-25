@@ -8,6 +8,7 @@ libraries:
 ckeditor_stylesheets:
   - css/ckeditor.css
 regions:
+  tombras_tools: Tools
   header: Header
   feature: Feature
   content: Content

@@ -1,10 +1,14 @@
 {%
   set classes = [
-  'item'
+  'item',
 ]
 %}
+
 {% if multiple %}
   {% for item in items %}
+    {%
+      set classes =  classes|merge([item.content['#view_mode']])
+    %}
     <div{{ item.attributes.addClass(classes) }}>{{ item.content }}</div>
   {% endfor %}
 {% else %}

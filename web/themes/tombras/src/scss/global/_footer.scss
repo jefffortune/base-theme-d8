@@ -1,0 +1,77 @@
+footer {
+  background-color: $color-secondary;
+  padding: $padding_mobile;
+
+  @include clearfix;
+
+  @media (min-width: $screen-md) {
+    padding: $padding_tablet;
+  }
+
+  @media (min-width: $screen-lg) {
+    padding: $padding_desktop;
+  }
+
+  .container {
+    max-width: em(650);
+    margin: 0 auto;
+
+    .block-content {
+      @include clearfix;
+      max-width: em(650);
+    }
+
+    nav {
+      width: 300px;
+      margin: 0 auto;
+
+      @media (min-width: $screen-md) {
+        margin: 0 em(30) 0 0;
+        float: left;
+
+        &:last-of-type {
+          margin-right: em(0);
+        }
+      }
+
+      h2 {
+        color: $color-white;
+        width: 100%;
+        border-bottom: 2px solid $color-white;
+        text-align: center;
+        margin: 0;
+        padding-bottom: rem(15);
+        display: block;
+      }
+
+      ul {
+        margin: 0;
+        list-style: none;
+        columns: 2;
+        padding: em(5)em(10);
+        box-sizing: border-box;
+
+        li {
+
+          a {
+            color: $color-white;
+            text-decoration: none;
+            display: block;
+            padding: em(10) 0;
+          }
+        }
+      }
+    }
+
+    .copyright {
+
+      p {
+        color: $color-white;
+
+        a {
+          color: $color-primary;
+        }
+      }
+    }
+  }
+}
