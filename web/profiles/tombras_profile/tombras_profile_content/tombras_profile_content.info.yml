@@ -1,0 +1,4 @@
+name: Tombras Profile Content
+type: module
+description: 'Tombras install profile content.'
+core: 8.x
