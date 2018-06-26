@@ -16,11 +16,6 @@
             {
                 "href": "http:\/\/default\/user\/1?_format=hal_json"
             }
-        ],
-        "http:\/\/drupal.org\/rest\/relation\/paragraph\/background_image\/field_background_image": [
-            {
-                "href": "http:\/\/default\/media\/5?_format=hal_json"
-            }
         ]
     },
     "id": [
@@ -62,7 +57,7 @@
                 },
                 "uuid": [
                     {
-                        "value": "b34aff15-9f74-4ff3-a69a-204aaff009cd"
+                        "value": "e859526d-1173-4d67-b039-49f3bd51dcbb"
                     }
                 ],
                 "lang": "en"
@@ -80,24 +75,7 @@
                 },
                 "uuid": [
                     {
-                        "value": "b34aff15-9f74-4ff3-a69a-204aaff009cd"
-                    }
-                ]
-            }
-        ],
-        "http:\/\/drupal.org\/rest\/relation\/paragraph\/background_image\/field_background_image": [
-            {
-                "_links": {
-                    "self": {
-                        "href": "http:\/\/default\/media\/5?_format=hal_json"
-                    },
-                    "type": {
-                        "href": "http:\/\/drupal.org\/rest\/type\/media\/hero_image_basic"
-                    }
-                },
-                "uuid": [
-                    {
-                        "value": "871c7a9c-6429-4d1f-9127-6fb779b79edf"
+                        "value": "e859526d-1173-4d67-b039-49f3bd51dcbb"
                     }
                 ]
             }
