@@ -1,8 +1,0 @@
-langcode: en
-status: true
-dependencies: {  }
-id: font_color
-label: 'Font Color'
-icon_uuid: null
-description: ''
-behavior_plugins: {  }

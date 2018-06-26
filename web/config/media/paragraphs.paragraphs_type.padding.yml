@@ -1,8 +1,0 @@
-langcode: en
-status: true
-dependencies: {  }
-id: padding
-label: Padding
-icon_uuid: null
-description: 'Ability to modify the padding of the container.'
-behavior_plugins: {  }

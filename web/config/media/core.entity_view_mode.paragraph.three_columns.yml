@@ -1,9 +1,0 @@
-langcode: en
-status: true
-dependencies:
-  module:
-    - paragraphs
-id: paragraph.three_columns
-label: '3 Columns'
-targetEntityType: paragraph
-cache: true
