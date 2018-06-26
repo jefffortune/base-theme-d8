@@ -121,7 +121,7 @@
             "Duplicate field storage types": "https://www.drupal.org/files/issues/2018-06-06/bricks-duplicate_field_storage_types-2885191-11.patch"
           },
           "drupal/entity_embed": {
-            "Add responsive styles to embed entity form": "8.x-1.0-beta2-responsive.patch",
+            "Add responsive styles to embed entity form": "patches/8.x-1.0-beta2-responsive.patch",
             "Fix php notice on display_review var": "https://www.drupal.org/files/issues/entity_embed-display-review-default-2926916-2.patch"
           },
           "drupal/url_embed": {
