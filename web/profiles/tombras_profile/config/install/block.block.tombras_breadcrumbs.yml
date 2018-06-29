@@ -7,8 +7,8 @@ dependencies:
     - tombras
 id: tombras_breadcrumbs
 theme: tombras
-region: header
-weight: 0
+region: content
+weight: -3
 provider: null
 plugin: system_breadcrumb_block
 settings:

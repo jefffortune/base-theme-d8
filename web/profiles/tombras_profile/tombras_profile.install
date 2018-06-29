@@ -16,7 +16,11 @@ function tombras_profile_install() {
   include_once DRUPAL_ROOT . '/core/profiles/standard/standard.install';
   standard_install();
 
-  // Can add code in here to make nodes, terms, etc.
+  // Enable module after install profile runs.
+  \Drupal::service('module_installer')->install(['tombras_profile_content']);
+
+  // Update frontpage path.
+  \Drupal::service('config.factory')->getEditable('system.site')->set('page.front', '/node/1')->save();
 
   /* NOT WORKING YET.
   // Copy embed image from profile to site files.

@@ -1,9 +1,0 @@
-langcode: en
-status: true
-dependencies:
-  module:
-    - paragraphs
-id: paragraph.row_no_gutter
-label: 'Row No Gutter'
-targetEntityType: paragraph
-cache: true

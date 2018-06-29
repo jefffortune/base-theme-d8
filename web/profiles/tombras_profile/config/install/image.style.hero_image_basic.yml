@@ -1,0 +1,16 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - focal_point
+name: hero_image_basic
+label: 'Hero Image Basic'
+effects:
+  8a525085-924a-4ced-8b1a-e7e21f62709b:
+    uuid: 8a525085-924a-4ced-8b1a-e7e21f62709b
+    id: focal_point_scale_and_crop
+    weight: 1
+    data:
+      width: 2100
+      height: 460
+      crop_type: focal_point

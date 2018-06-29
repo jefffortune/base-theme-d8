@@ -26,6 +26,7 @@ dependencies:
   - contextual
   - crop
   - ctools
+  - default_content
   - datetime
   - dblog
   - devel

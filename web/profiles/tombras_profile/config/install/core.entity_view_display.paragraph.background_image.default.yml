@@ -1,0 +1,50 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.background_image.field_background_image
+    - paragraphs.paragraphs_type.background_image
+  module:
+    - layout_builder
+    - layout_discovery
+third_party_settings:
+  layout_builder:
+    sections:
+      -
+        layout_id: layout_onecol
+        layout_settings: {  }
+        components:
+          82300a20-ef0f-42ff-a936-0cbb7efd69d0:
+            uuid: 82300a20-ef0f-42ff-a936-0cbb7efd69d0
+            region: content
+            configuration:
+              id: 'field_block:paragraph:background_image:field_background_image'
+              label: 'Background Image'
+              provider: layout_builder
+              label_display: '0'
+              formatter:
+                label: hidden
+                type: picture_background_formatter_media
+                settings:
+                  responsive_image_style: hero_image_basic
+                  selector: '.paragraph-[paragraph:parent_id]'
+                third_party_settings: {  }
+              context_mapping:
+                entity: layout_builder.entity
+            additional: {  }
+            weight: 0
+id: paragraph.background_image.default
+targetEntityType: paragraph
+bundle: background_image
+mode: default
+content:
+  field_background_image:
+    type: entity_reference_entity_view
+    weight: 0
+    label: above
+    settings:
+      view_mode: default
+      link: false
+    third_party_settings: {  }
+    region: content
+hidden: {  }

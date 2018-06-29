@@ -2,20 +2,20 @@ langcode: en
 status: true
 dependencies:
   config:
-    - system.menu.footer
+    - system.menu.quick-links
   module:
     - system
   theme:
     - tombras
-id: tombras_footer
+id: quicklinks
 theme: tombras
 region: footer
-weight: -6
+weight: 0
 provider: null
-plugin: 'system_menu_block:footer'
+plugin: 'system_menu_block:quick-links'
 settings:
-  id: 'system_menu_block:footer'
-  label: Grids
+  id: 'system_menu_block:quick-links'
+  label: 'Quick Links'
   provider: system
   label_display: visible
   level: 1

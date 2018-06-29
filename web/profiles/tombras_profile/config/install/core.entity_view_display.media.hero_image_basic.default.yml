@@ -1,0 +1,80 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.media.hero_image_basic.field_media_image_1
+    - image.style.thumbnail
+    - media.type.hero_image_basic
+  module:
+    - image
+    - layout_builder
+    - tombras
+    - user
+third_party_settings:
+  layout_builder:
+    sections:
+      -
+        layout_id: layout_onecol_row
+        layout_settings: {  }
+        components:
+          c2dbc009-1582-4ae1-a7a4-19c47c807883:
+            uuid: c2dbc009-1582-4ae1-a7a4-19c47c807883
+            region: content
+            configuration:
+              id: 'field_block:media:hero_image_basic:field_media_image_1'
+              label: Image
+              provider: layout_builder
+              label_display: '0'
+              formatter:
+                label: above
+                type: image
+                settings:
+                  image_style: ''
+                  image_link: ''
+                third_party_settings: {  }
+              context_mapping:
+                entity: layout_builder.entity
+            additional: {  }
+            weight: 0
+id: media.hero_image_basic.default
+targetEntityType: media
+bundle: hero_image_basic
+mode: default
+content:
+  created:
+    label: hidden
+    type: timestamp
+    weight: 0
+    region: content
+    settings:
+      date_format: medium
+      custom_date_format: ''
+      timezone: ''
+    third_party_settings: {  }
+  field_media_image_1:
+    weight: 6
+    label: above
+    settings:
+      image_style: ''
+      image_link: ''
+    third_party_settings: {  }
+    type: image
+    region: content
+  thumbnail:
+    type: image
+    weight: 5
+    label: hidden
+    settings:
+      image_style: thumbnail
+      image_link: ''
+    region: content
+    third_party_settings: {  }
+  uid:
+    label: hidden
+    type: author
+    weight: 0
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+hidden:
+  name: true

@@ -1,0 +1,28 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_background_image
+    - media.type.hero_image_basic
+    - paragraphs.paragraphs_type.background_image
+id: paragraph.background_image.field_background_image
+field_name: field_background_image
+entity_type: paragraph
+bundle: background_image
+label: 'Background Image'
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:media'
+  handler_settings:
+    target_bundles:
+      hero_image_basic: hero_image_basic
+    sort:
+      field: changed
+      direction: ASC
+    auto_create: true
+    auto_create_bundle: ''
+field_type: entity_reference

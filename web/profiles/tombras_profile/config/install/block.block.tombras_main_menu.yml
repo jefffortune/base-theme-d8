@@ -10,7 +10,7 @@ dependencies:
 id: tombras_main_menu
 theme: tombras
 region: header
-weight: 0
+weight: -5
 provider: null
 plugin: 'system_menu_block:main'
 settings:

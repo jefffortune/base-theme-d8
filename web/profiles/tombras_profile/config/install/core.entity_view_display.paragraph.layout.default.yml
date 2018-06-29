@@ -2,6 +2,7 @@ langcode: en
 status: true
 dependencies:
   config:
+    - field.field.paragraph.layout.field_label
     - field.field.paragraph.layout.field_modifiers
     - paragraphs.paragraphs_type.layout
   module:
@@ -32,11 +33,35 @@ third_party_settings:
                 entity: layout_builder.entity
             additional: {  }
             weight: 0
+          27f8c511-58b3-45ed-9088-1d3c6e441d99:
+            uuid: 27f8c511-58b3-45ed-9088-1d3c6e441d99
+            region: content
+            configuration:
+              id: 'field_block:paragraph:layout:field_label'
+              label_display: ''
+              formatter:
+                label: above
+                settings:
+                  link_to_entity: false
+                third_party_settings: {  }
+                type: string
+              context_mapping:
+                entity: layout_builder.entity
+            additional: {  }
+            weight: 1
 id: paragraph.layout.default
 targetEntityType: paragraph
 bundle: layout
 mode: default
 content:
+  field_label:
+    weight: 1
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    type: string
+    region: content
   field_modifiers:
     weight: 0
     label: above
